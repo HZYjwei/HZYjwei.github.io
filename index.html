@@ -351,7 +351,23 @@
       
         
           
-            
+            <p>用hexo当然是因为穷（没钱卖服务器）和懒了</p>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：</p>
+<ul>
+<li>node（带npm）</li>
+<li>git</li>
+<li>hexo<br>安装好git和node后执行以下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">hexo init &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">cd &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我遇到的问题：npm install出错<br>解决方案：别用gitBash管理员权限打开cmd，进入到相应文件目录，再npm install（可能是权限不足）</p>
+<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>生成静态文件并发布到服务器，可以看一下脚手架的大致内容</p>
+<p>然后需要注册并绑定github用户，并新建项目<code>&lt;yourname&gt;.github.io</code><br>拷贝ssh地址<br><img src="/images/hexo/hexo1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
+<p>之后在根目录<code>_config.yml</code>文件的最后面的deploy改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;yourpath&gt;</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
+<p>可以直接将你本地的数据仓库推到服务器，前提是你绑定了ssh-keygen</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>我用的nextT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+
           
         
       
@@ -713,6 +729,8 @@
   
 
 
+  
+
 
 
 
@@ -751,6 +769,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -836,5 +859,9 @@
 
   
 
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
 </body>
 </html>
