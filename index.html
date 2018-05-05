@@ -79,13 +79,17 @@
 
 
 
+<meta name="description" content="学习前端">
+<meta name="keywords" content="前端">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="学习前端">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="学习前端">
 
 
 
@@ -325,6 +329,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/05/hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/05/hexo/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -351,7 +366,7 @@
       
         
           
-            <p>用hexo当然是因为穷（没钱卖服务器）和懒了</p>
+            <p>用hexo当然是因为穷（没钱买服务器）和懒了</p>
 <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：</p>
 <ul>
 <li>node（带npm）</li>
@@ -360,13 +375,22 @@
 </li>
 </ul>
 <p>我遇到的问题：npm install出错<br>解决方案：别用gitBash管理员权限打开cmd，进入到相应文件目录，再npm install（可能是权限不足）</p>
-<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
 <p>生成静态文件并发布到服务器，可以看一下脚手架的大致内容</p>
 <p>然后需要注册并绑定github用户，并新建项目<code>&lt;yourname&gt;.github.io</code><br>拷贝ssh地址<br><img src="/images/hexo/hexo1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
 <p>之后在根目录<code>_config.yml</code>文件的最后面的deploy改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;yourpath&gt;</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 <p>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
 <p>可以直接将你本地的数据仓库推到服务器，前提是你绑定了ssh-keygen</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>我用的nextT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><p>我用的nexT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+<h2 id="主要修改"><a href="#主要修改" class="headerlink" title="主要修改"></a>主要修改</h2><p>先进入<strong>根目录</strong>的<code>_config.yml</code>设置其他的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: Blog</span><br><span class="line">subtitle: </span><br><span class="line">description: 学习前端</span><br><span class="line">keywords: 前端</span><br><span class="line">author: &lt;yourname&gt;</span><br><span class="line">#会在信息框中显示</span><br><span class="line">language: zh-Hans</span><br><span class="line">#中文100级，在设置菜单的时候可以用上</span><br><span class="line"></span><br><span class="line">theme: next</span><br><span class="line">#修改主题</span><br></pre></td></tr></table></figure></p>
+<p><code>/themes/nextnext/_config.yml</code>中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#修改主题Muse，Mist，Pisces</span><br><span class="line">scheme: Pisces</span><br><span class="line"></span><br><span class="line">#menu菜单路由</span><br><span class="line">menu:</span><br><span class="line">  home: /</span><br><span class="line">  about: /about</span><br><span class="line">  tags: /tags</span><br><span class="line">  categories: /categories</span><br><span class="line">  archives: /archives</span><br><span class="line">  commonweal: /404.html</span><br><span class="line">  something: /something</span><br><span class="line">  随便加的: /随便加</span><br><span class="line"></span><br><span class="line">#就是你的信息在哪</span><br><span class="line">siderbar:</span><br><span class="line">    position: right</span><br><span class="line"></span><br><span class="line">#背景的canvas</span><br><span class="line">canvas_nest: true</span><br></pre></td></tr></table></figure></p>
+<p>如果有修改菜单的话<br>进入<code>themes/next/languages/&lt;yourlanguages&gt;.yml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br><span class="line">  对应的key: 名字</span><br></pre></td></tr></table></figure></p>
+<p>改好了需要在cmd中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以tags举例</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure></p>
+<p>会生成<code>/source/tags/index.md</code><br>打开并输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2018-05-05 12:17:52</span><br><span class="line">type: &apos;tags&apos;</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<p>这个很重要</p>
+<h2 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h2><p>统计人数<br>在<code>/themes/next/layout/_partials/footer.swig</code>你想的地方加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"powered-by"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-user-md"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_uv"</span>&gt;</span></span><br><span class="line">  本站访客数:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个背景蛇皮线条<br><code>/themes/next/layout/_layout.swig</code>中<code>&lt;/body&gt;</code>的前面加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.canvas_nest %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>评论<br>没备案没做<br><img src="/images/laugh.jpg" alt=""></p>
 
           
         
@@ -459,6 +483,17 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/05/markDownSimple/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/05/markDownSimple/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -598,7 +633,7 @@
                 alt="YYY" />
             
               <p class="site-author-name" itemprop="name">YYY</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">学习前端</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -810,6 +845,14 @@
 
   
 
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -861,7 +904,8 @@
 
 
   
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  <script color="0,0,200" opacity="0.7" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
   
 </body>
 </html>
