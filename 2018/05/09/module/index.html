@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="模块化," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="学习前端">
-<meta name="keywords" content="前端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。 基础作用域区别在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。  全局作用域就是window下的作用域 函数作用域就是因为构成函数所形成一个独立的嵌套在上一层的作用域。 同一作用域，js引擎寻找变量的方式为先寻找本层的变量，如果找到则返回，找不到则向外层作用域">
+<meta name="keywords" content="模块化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="module">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/module/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="学习前端">
+<meta property="og:description" content="js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。 基础作用域区别在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。  全局作用域就是window下的作用域 函数作用域就是因为构成函数所形成一个独立的嵌套在上一层的作用域。 同一作用域，js引擎寻找变量的方式为先寻找本层的变量，如果找到则返回，找不到则向外层作用域">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-12T15:10:26.174Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
-<meta name="twitter:description" content="学习前端">
+<meta name="twitter:title" content="module">
+<meta name="twitter:description" content="js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。 基础作用域区别在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。  全局作用域就是window下的作用域 函数作用域就是因为构成函数所形成一个独立的嵌套在上一层的作用域。 同一作用域，js引擎寻找变量的方式为先寻找本层的变量，如果找到则返回，找不到则向外层作用域">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/module/"/>
 
 
 
 
 
-  <title>Blog</title>
+  <title>module | Blog</title>
   
 
 
@@ -144,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/HZYjwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
     
@@ -269,9 +269,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -301,9 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/09/module/" itemprop="url">module</a></h1>
+          <h1 class="post-title" itemprop="name headline">module</h1>
         
 
         <div class="post-meta">
@@ -364,9 +362,7 @@
       
 
       
-        
-          
-            <p>js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。</p>
+        <p>js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。</p>
 <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="作用域区别"><a href="#作用域区别" class="headerlink" title="作用域区别"></a>作用域区别</h2><p>在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。</p>
 <ul>
 <li>全局作用域就是window下的作用域</li>
@@ -401,8 +397,6 @@
 <p>导出<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名，需要定义变量名</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//...const, var, let function, function*, class...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//default导出</span></span><br><span class="line"><span class="comment">//不需要定义变量名了</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> x =&gt; x;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象式</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    <span class="comment">//对象解构</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="导出模块兼容"><a href="#导出模块兼容" class="headerlink" title="导出模块兼容"></a>导出模块兼容</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context,name factory</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(define &amp;&amp; <span class="keyword">typeof</span> define === <span class="string">" function"</span>)&#123;</span><br><span class="line">        define(factory);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">module</span>.export)&#123;</span><br><span class="line">        <span class="built_in">module</span>.exports = factory;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        context[name] = factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>,<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -417,336 +411,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/05/hexo/" itemprop="url">hexo</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:39:01+08:00">
-                2018-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/模块化/" rel="tag"># 模块化</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/05/hexo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/05/hexo/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>用hexo当然是因为穷（没钱买服务器）和懒了</p>
-<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：</p>
-<ul>
-<li>node（带npm）</li>
-<li>git</li>
-<li>hexo<br>安装好git和node后执行以下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">hexo init &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">cd &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>我遇到的问题：npm install出错<br>解决方案：别用gitBash管理员权限打开cmd，进入到相应文件目录，再npm install（可能是权限不足）</p>
-<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
-<p>生成静态文件并发布到服务器，可以看一下脚手架的大致内容</p>
-<p>然后需要注册并绑定github用户，并新建项目<code>&lt;yourname&gt;.github.io</code><br>拷贝ssh地址<br><img src="/images/hexo/hexo1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
-<p>之后在根目录<code>_config.yml</code>文件的最后面的deploy改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;yourpath&gt;</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<p>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
-<p>可以直接将你本地的数据仓库推到服务器，前提是你绑定了ssh-keygen</p>
-<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><p>我用的nexT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
-<h2 id="主要修改"><a href="#主要修改" class="headerlink" title="主要修改"></a>主要修改</h2><p>先进入<strong>根目录</strong>的<code>_config.yml</code>设置其他的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: Blog</span><br><span class="line">subtitle: </span><br><span class="line">description: 学习前端</span><br><span class="line">keywords: 前端</span><br><span class="line">author: &lt;yourname&gt;</span><br><span class="line">#会在信息框中显示</span><br><span class="line">language: zh-Hans</span><br><span class="line">#中文100级，在设置菜单的时候可以用上</span><br><span class="line"></span><br><span class="line">theme: next</span><br><span class="line">#修改主题</span><br></pre></td></tr></table></figure></p>
-<p><code>/themes/nextnext/_config.yml</code>中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#修改主题Muse，Mist，Pisces</span><br><span class="line">scheme: Pisces</span><br><span class="line"></span><br><span class="line">#menu菜单路由</span><br><span class="line">menu:</span><br><span class="line">  home: /</span><br><span class="line">  about: /about</span><br><span class="line">  tags: /tags</span><br><span class="line">  categories: /categories</span><br><span class="line">  archives: /archives</span><br><span class="line">  commonweal: /404.html</span><br><span class="line">  something: /something</span><br><span class="line">  随便加的: /随便加</span><br><span class="line"></span><br><span class="line">#就是你的信息在哪</span><br><span class="line">siderbar:</span><br><span class="line">    position: right</span><br><span class="line"></span><br><span class="line">#背景的canvas</span><br><span class="line">canvas_nest: true</span><br></pre></td></tr></table></figure></p>
-<p>如果有修改菜单的话<br>进入<code>themes/next/languages/&lt;yourlanguages&gt;.yml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br><span class="line">  对应的key: 名字</span><br></pre></td></tr></table></figure></p>
-<p>改好了需要在cmd中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以tags举例</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure></p>
-<p>会生成<code>/source/tags/index.md</code><br>打开并输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2018-05-05 12:17:52</span><br><span class="line">type: &apos;tags&apos;</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
-<p>这个很重要</p>
-<h2 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h2><p>统计人数<br>在<code>/themes/next/layout/_partials/footer.swig</code>你想的地方加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"powered-by"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-user-md"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_uv"</span>&gt;</span></span><br><span class="line">  本站访客数:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>这个背景蛇皮线条<br><code>/themes/next/layout/_layout.swig</code>中<code>&lt;/body&gt;</code>的前面加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.canvas_nest %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure></p>
-<p>评论<br>没备案没做<br><img src="/images/laugh.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/markDownSimple/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/05/markDownSimple/" itemprop="url">MarkDown——Simple</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:30:43+08:00">
-                2018-05-05
-              </time>
+              <a href="/2018/05/05/hexo/" rel="next" title="hexo">
+                <i class="fa fa-chevron-left"></i> hexo
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/05/markDownSimple/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/05/markDownSimple/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>首先，这是一个用hexo和git搭建的一个blog，咳，我只是一个咸鱼，所以这个都是静态的，如果有错请大神赐教啊。(｀・ω・´)<br>先说一下今天稍微看了一下的Markdown吧，防止以后忘记。<br>话说这玩意儿写起来真恶</p>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>好吧其实是个人用的感觉应该比较有用的几个</p>
-<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># &lt;title1&gt;</span></span><br><span class="line"><span class="section">## &lt;title2&gt;</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-<p>对应生成html的<code>&lt;h1 id=&quot;title&quot;&gt;</code>到<code>&lt;h6&gt;</code>,所以最多有六个#。</p>
-<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`所用的语言</span></span><br><span class="line"><span class="string">    function func(...args)&#123;&#125;</span></span><br><span class="line"><span class="string">        if(1)&#123;</span></span><br><span class="line"><span class="string">            something</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
-<p>用上面的语句可以生成对应以下的代码块，写语言可以让部分语句高亮<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">...args</span>)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. one</span><br><span class="line">    4. one-one</span><br><span class="line">    3. one-two</span><br><span class="line">2. two</span><br><span class="line">    + two-one</span><br><span class="line">    * two-two</span><br><span class="line">3. three</span><br></pre></td></tr></table></figure>
-<p>上面的语句效果，记得空格哦，唯一的特点就是只能选内容不能选到列表前面的编号。<br>不同层就在前面加个<code>tab</code><br>有序列表：某一层的第一个值如<code>4. one-one</code>的4设置的是初始值，后面累加。<br>无序列表的话前面* + -都是一样的</p>
-<ol>
-<li>one<ol start="4">
-<li>one-one</li>
-<li>one-two</li>
-</ol>
-</li>
-<li>two<ul>
-<li>two-one</li>
-</ul>
-<ul>
-<li>two-two</li>
-</ul>
-</li>
-<li>three</li>
-</ol>
-<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">****</span><br><span class="line">---</span><br><span class="line">* * *</span><br></pre></td></tr></table></figure>
-<p>分隔线的话只要连着多个*或者-就可以了（3个以上）</p>
-<hr>
-<hr>
-<hr>
-<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![this is dog](/images/blog-avatar.jpg &quot;description&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/blog-avatar.jpg" alt="this is dog" title="description"><br>详细：</p>
-<ul>
-<li><code>![图片不存在的时候显示文字](url)</code></li>
-<li>在hexo搭建blog的时候建议将图片都放在<code>&#39;source/images/&#39;</code>中然后统一通过<code>&#39;/images/xx.png&#39;</code>引入，不然路径可能会有问题。</li>
-</ul>
-<h3 id="链接和锚点"><a href="#链接和锚点" class="headerlink" title="链接和锚点"></a>链接和锚点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[link to baidu](https://www.baidu.com)</span><br><span class="line">[回到开始](#基础)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.baidu.com" target="_blank" rel="noopener">link to baidu</a><br><a href="#基础">回到开始</a><br>其实就是<code>&lt;a href=&quot;xx&quot;&gt;&lt;/a&gt;</code>,话说用中文做id真的没问题吗</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>其他的都去看文档啊<a href="http://www.markdown.cn" target="_blank" rel="noopener">MarkDown</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -756,10 +450,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -767,6 +462,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -787,8 +496,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -843,6 +561,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域区别"><span class="nav-number">1.1.</span> <span class="nav-text">作用域区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名空间"><span class="nav-number">1.2.</span> <span class="nav-text">命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#立即执行函数"><span class="nav-number">1.3.</span> <span class="nav-text">立即执行函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#即时对象初始化"><span class="nav-number">1.4.</span> <span class="nav-text">即时对象初始化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类别"><span class="nav-number">2.</span> <span class="nav-text">类别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#COMMONJS规范"><span class="nav-number">2.1.</span> <span class="nav-text">COMMONJS规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RequireJS（AMD规范）"><span class="nav-number">2.2.</span> <span class="nav-text">RequireJS（AMD规范）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SeaJS规范（CMD）"><span class="nav-number">2.3.</span> <span class="nav-text">SeaJS规范（CMD）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6方式"><span class="nav-number">2.4.</span> <span class="nav-text">ES6方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个导出"><span class="nav-number">2.4.1.</span> <span class="nav-text">单个导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认导出"><span class="nav-number">2.4.2.</span> <span class="nav-text">默认导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结一下ES6"><span class="nav-number">2.4.3.</span> <span class="nav-text">总结一下ES6</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导出模块兼容"><span class="nav-number">3.</span> <span class="nav-text">导出模块兼容</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -996,6 +730,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1013,6 +751,18 @@
       <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/05/09/module/';
+          this.page.identifier = '2018/05/09/module/';
+          this.page.title = 'module';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
