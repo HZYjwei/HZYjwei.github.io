@@ -284,6 +284,327 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/19/promise/" itemprop="url">promise</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-19T13:58:47+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/19/promise/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/19/promise/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><p>首先讲一下Promise的使用方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> data = <span class="built_in">Math</span>.random();</span><br><span class="line">   <span class="keyword">if</span>(data &gt; <span class="number">0.5</span>)&#123;</span><br><span class="line">       resolve(data);</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject(data);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"success:"</span> + data);</span><br><span class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"fail:"</span> + data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>在Promise构造函数的参数为一个<code>function(resolve,reject)</code>,第一个参数（<code>resolve</code>）为成功执行的回调,第二个参数（<code>reject</code>）为失败执行的回调。</li>
+<li>在Promise的prototype中定义了一个then方法，其中它有两个参数，均为为<code>function(data)</code>,第一个参数<code>function</code>是resolve()的回调，第二个是reject()的回调。</li>
+<li>如果在Promise中的代码改为异步执行，<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;resole(<span class="number">1</span>)&#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"success:"</span> + data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在Promise中有三个状态<code>Pedding</code> -&gt; <code>Resolved</code>(<code>Rejected</code>)</p>
+<p>#异步机制<br>先来两题简单的</p>
+<ul>
+<li>第一题<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">10</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">300</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"><span class="keyword">while</span>(num--) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'--'</span>);</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">20</span>);</span><br><span class="line">&#125;, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>答案：–(*10), 20 ,300</p>
+<ul>
+<li>第二题<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">10000</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">300</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"><span class="keyword">while</span>(num--) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'--'</span>);</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">20</span>);</span><br><span class="line">&#125;, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>答案：–(*10000),300,20</p>
+<p>那么再来一题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"macro-task   1"</span>)&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"macro-task   2"</span>)&#125;, <span class="number">0</span>);</span><br><span class="line">    resolve();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"主线程   1"</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"micro-task   1"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"主线程   2"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>答案是：<img src="/images/es6/Promise.png" alt="" title="description"><br>在这里讲一下流程，首先js主线程是单线程的，但是会有任务队列来执行将异步中的函数推到主线程的执行队列中，<br>eg：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;console.log(111)&#125;, 0)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/es6/liucheng.png" alt="" title="执行流程图"><br>但是不同的任务队列中优先级是不同的，且micro-task &gt; macro-task<br>而且<strong>setTimeout有一个最低延时<em>4ms</em>，无论是否设置时间为0ms</strong></p>
+<p>列举一下各个任务队列的函数</p>
+<ul>
+<li>macro-task<br>  <code>script</code>（整体代码），<code>setTimeout</code>， <code>setInterval</code>， <code>setImmediate</code>， I/O， UI rendering</li>
+<li>micro-task<br>  <code>process.nextTick</code>， <code>promise.then</code>， <code>Object.observe</code>， <code>MutationObserver</code></li>
+</ul>
+<p>#其他</p>
+<ul>
+<li><code>Promise.race([...args]).then()</code><br>  只要有一个执行完了就then</li>
+<li><code>Promise.all([...args]).then()</code><br>  所有都执行完了才then</li>
+</ul>
+<p>#源码（类似）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myPromise</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> fn !== <span class="string">"fucntion"</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">"fn is not a function"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> _self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">this</span>.status = <span class="string">"Pedding"</span>;</span><br><span class="line">    thi.data = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.resolveArr = [];</span><br><span class="line">    <span class="keyword">this</span>.rejectArr = [];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">                    _self.status = <span class="string">"Resolved"</span>;</span><br><span class="line">                    _self.data = data;</span><br><span class="line">                    _self.resolveArr.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn())</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reject</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        setTiemout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">                _self.status = <span class="string">"Rejected"</span>;</span><br><span class="line">                _self.data = data;</span><br><span class="line">                _slef.rejectArr.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>)        </span><br><span class="line">    &#125;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">&#125;</span><br><span class="line">myPromise.prototype.then = <span class="function"><span class="keyword">function</span>(<span class="params">onResolved, onRejected</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Resolved"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> res = onResolved(_self.data);</span><br><span class="line">            <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                res.then(resolve, reject);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                resolve(res);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Rejected"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> res = onRejected(_self.data);</span><br><span class="line">            <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                res.then(resolve, reject);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                reject(res);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            _self.resolveArr.push((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">var</span> res = onResolved(_self.data);</span><br><span class="line">                <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                    res.then(resolve, reject);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    resolve(res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;(onResolved)))</span><br><span class="line">        &#125;);</span><br><span class="line">        _self.rejectArr.push((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">var</span> res = onRejected(_self.data);</span><br><span class="line">                <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                    res.then(resolve, reject);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    resolve(res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;(onRejected)))</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/react-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/13/react-1/" itemprop="url">react（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T10:02:53+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/13/react-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/13/react-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i react</span><br><span class="line">npm i react-dom</span><br><span class="line">npm i react-router-dom</span><br></pre></td></tr></table></figure>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><ul>
+<li><p><strong>componentWillMount</strong> ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。</p>
+</li>
+<li><p><strong>componentDIdMount</strong>：<strong>第一次</strong>渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state。</p>
+</li>
+<li><p><strong>componentWillReceiveProps</strong>：接受到一个新的props，但是第一次render不会触发。</p>
+</li>
+<li><p><strong>shouldComponentUpdate</strong>：boolean，经过diff算法是否需要更新dom</p>
+</li>
+<li><strong>componentWillUpdate</strong>：将要修改</li>
+<li><strong>componentDidUpdate</strong>：修改后</li>
+<li><strong>componentWillUnmount</strong>：移除组件的事件</li>
+</ul>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><ul>
+<li><p>函数式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Com = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>this is component,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>class方式</p>
+</li>
+</ul>
+<h1 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h1><p>Route由上到下匹配。<br>Route中的<code>exact</code>是严格匹配路由的意思（以下以<code>baidu.com</code>为例）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserRouter, Route, Switch &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">BrowserRouter</span>&gt;</span></span></span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">                &lt;Route path="/" exact component=&#123;Home&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1" component=&#123;Com1&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com2" component=&#123;Com2&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1/Com1_1" component=&#123;Com1_1&#125; /&gt;</span><br><span class="line">                &lt;Route component=&#123; NotFound &#125; /&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">        &lt;BrowserRouter/&gt;)</span><br></pre></td></tr></table></figure></p>
+<p>这样只有输入<code>baidu.com</code>，才能进入<code>Home</code>组件。<br>但是路径为<code>baidu.com/Com1/Com1_1</code>的时候，由于优先匹配到了<code>/Com1</code>,切不严格匹配，所以直接返回<code>Com_1</code>组件。<br>NotFound:404页面，没有path，上面所有的路由都没有匹配到。</p>
+<h2 id="BrowserRouter和HashRouter"><a href="#BrowserRouter和HashRouter" class="headerlink" title="BrowserRouter和HashRouter"></a>BrowserRouter和HashRouter</h2><p>React路由不刷新页面，直接跳转，可以做单页面应用</p>
+<ul>
+<li>BrowserRouter<br>  方式：<code>baidu.com/Com</code></li>
+<li>HashRouter<br>  方式：<code>baidu.com/#/Com</code>,以Hash值的方式插入</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/module/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -379,7 +700,13 @@
 <h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>在合作开发的时候，最早是使用命名空间的方式读取变量。<br>但是es5严格模式不支持with修改作用域，不安全。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    department1 : &#123;</span><br><span class="line">        department1_1 : &#123;</span><br><span class="line">            user1 : &#123;</span><br><span class="line">                name : <span class="string">'xixi'</span>,</span><br><span class="line">                age : <span class="number">18</span>,</span><br><span class="line">                sex : <span class="string">'midmale'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            user2 : &#123;</span><br><span class="line">                name : <span class="string">'haha'</span>,</span><br><span class="line">                age : <span class="number">20</span>,</span><br><span class="line">                sex : <span class="string">'doublemale'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">    department2 : &#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//反例</span></span><br><span class="line">    <span class="comment">//利用with读取变量</span></span><br><span class="line">    <span class="keyword">with</span>(<span class="built_in">window</span>.obj.department1.department1_1.user1)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure></p>
 <h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><p>但是可以用立即执行和命名空间将某些接口暴露到全局。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        num++;</span><br><span class="line">        say();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'the num is '</span> + num)</span><br><span class="line">    &#125;</span><br><span class="line">    context.add = add;</span><br><span class="line">&#125;(<span class="built_in">window</span>.obj || (<span class="built_in">window</span>.obj = &#123;&#125;)))</span><br><span class="line"><span class="comment">//将add暴露到window.obj上</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="即时对象初始化"><a href="#即时对象初始化" class="headerlink" title="即时对象初始化"></a>即时对象初始化</h2><p>其实和立即执行函数差不多,但是这种方法在对象中需要有个<code>init(){return this}</code>函数来讲this暴露到外部。没什么用哈哈~<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(&#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    say()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.num)</span><br><span class="line">    &#125;,</span><br><span class="line">    add()&#123;</span><br><span class="line">        <span class="keyword">this</span>.num++;</span><br><span class="line">        <span class="keyword">this</span>.say();</span><br><span class="line">    &#125;,</span><br><span class="line">    init()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).init();</span><br></pre></td></tr></table></figure></p>
-<h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><h2 id="COMMONJS规范"><a href="#COMMONJS规范" class="headerlink" title="COMMONJS规范"></a>COMMONJS规范</h2><p>CommonJS是一种服务器加载的规范<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">module</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    <span class="keyword">this</span>.add = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.num++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports.module = <span class="built_in">module</span>;</span><br><span class="line"><span class="comment">//exports.module = module;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><h2 id="ES6方式"><a href="#ES6方式" class="headerlink" title="ES6方式"></a>ES6方式</h2><h3 id="单个导出"><a href="#单个导出" class="headerlink" title="单个导出"></a>单个导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//myModule.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> value = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;fun, value&#125; <span class="keyword">from</span> <span class="string">'myModule'</span></span><br></pre></td></tr></table></figure>
+<p>这相当于运行了<code>var {fun, value} = {fun : function(){}, value : 1}</code>,进行了对象的解构。<br>那么由此可得<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是个错误的例子</span></span><br><span class="line"><span class="keyword">import</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这是正确的例子</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line">myModule.value == <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; ... &#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br></pre></td></tr></table></figure>
+<p>其实export更多用于<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    key : value</span><br><span class="line">    <span class="comment">//key as value</span></span><br><span class="line">    <span class="comment">//key</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="comment">//import &#123;default as module1&#125; from 'module1'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="总结一下ES6"><a href="#总结一下ES6" class="headerlink" title="总结一下ES6"></a>总结一下ES6</h3><p>导入<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名方式</span></span><br><span class="line"><span class="keyword">import</span> &#123;name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;name1 <span class="keyword">as</span> Name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//default</span></span><br><span class="line"><span class="keyword">import</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> lib&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//导出为一个对象</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>导出<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名，需要定义变量名</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//...const, var, let function, function*, class...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//default导出</span></span><br><span class="line"><span class="comment">//不需要定义变量名了</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> x =&gt; x;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象式</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    <span class="comment">//对象解构</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="COMMONJS规范"><a href="#COMMONJS规范" class="headerlink" title="COMMONJS规范"></a>COMMONJS规范</h2><p>CommonJS是一种服务器加载的规范<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">module</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    <span class="keyword">this</span>.add = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.num++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports.module = <span class="built_in">module</span>;</span><br><span class="line"><span class="comment">//exports.module = module;</span></span><br></pre></td></tr></table></figure></p>
 <p>这种NodeJs方式的方式好像和立即执行函数的方式一样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">exports</span>)</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">m</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//something</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">module</span>.exports.m = m;</span><br><span class="line">    exports.m = m;    </span><br><span class="line">&#125;(<span class="built_in">module</span>.exports))</span><br></pre></td></tr></table></figure></p>
 <p>即相当于在IIFE的最上面执行了<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exports = <span class="built_in">module</span>.exports;</span><br><span class="line"><span class="comment">/*  module.exports是全局的变量</span></span><br><span class="line"><span class="comment">*所以导出有三种方式</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="built_in">module</span>.exports.m = m;</span><br><span class="line">exports.m = m;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    m : m,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// tip: 但是记得不能使用export = &#123;&#125; 改引用值的方式改变export的指向</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="RequireJS（AMD规范）"><a href="#RequireJS（AMD规范）" class="headerlink" title="RequireJS（AMD规范）"></a>RequireJS（AMD规范）</h2><p>requireJS是基于AMD规范的，在js文件的最上面统一加载<br>require和define中前面的数组中的<code>[&quot;module1&quot;,&quot;module2&quot;]</code>,和<code>function(arg1, arg2)</code>属于对应关系。<br>优点：</p>
@@ -393,12 +720,6 @@
 <ul>
 <li>seaJS是就近按需加载，requireJS是提前加载</li>
 </ul>
-<h2 id="ES6方式"><a href="#ES6方式" class="headerlink" title="ES6方式"></a>ES6方式</h2><h3 id="单个导出"><a href="#单个导出" class="headerlink" title="单个导出"></a>单个导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//myModule.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> value = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;fun, value&#125; <span class="keyword">from</span> <span class="string">'myModule'</span></span><br></pre></td></tr></table></figure>
-<p>这相当于运行了<code>var {fun, value} = {fun : function(){}, value : 1}</code>,进行了对象的解构。<br>那么由此可得<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是个错误的例子</span></span><br><span class="line"><span class="keyword">import</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这是正确的例子</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line">myModule.value == <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
-<h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; ... &#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br></pre></td></tr></table></figure>
-<p>其实export更多用于<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    key : value</span><br><span class="line">    <span class="comment">//key as value</span></span><br><span class="line">    <span class="comment">//key</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="comment">//import &#123;default as module1&#125; from 'module1'</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="总结一下ES6"><a href="#总结一下ES6" class="headerlink" title="总结一下ES6"></a>总结一下ES6</h3><p>导入<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名方式</span></span><br><span class="line"><span class="keyword">import</span> &#123;name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;name1 <span class="keyword">as</span> Name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//default</span></span><br><span class="line"><span class="keyword">import</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> lib&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//导出为一个对象</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>导出<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名，需要定义变量名</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//...const, var, let function, function*, class...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//default导出</span></span><br><span class="line"><span class="comment">//不需要定义变量名了</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> x =&gt; x;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象式</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    <span class="comment">//对象解构</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="导出模块兼容"><a href="#导出模块兼容" class="headerlink" title="导出模块兼容"></a>导出模块兼容</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context,name factory</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(define &amp;&amp; <span class="keyword">typeof</span> define === <span class="string">" function"</span>)&#123;</span><br><span class="line">        define(factory);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">module</span>.export)&#123;</span><br><span class="line">        <span class="built_in">module</span>.exports = factory;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        context[name] = factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>,<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
 
           
@@ -807,7 +1128,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -820,7 +1141,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
