@@ -284,6 +284,296 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/23/ie-compat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/23/ie-compat/" itemprop="url">ie-compat</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-23T15:20:40+08:00">
+                2018-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/23/ie-compat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/23/ie-compat/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先点开ie8浏览器上面的工具——&gt;Internet选项——&gt;安全——&gt;自定义级别——&gt;(拉到最下面)其他——&gt;通过域访问数据源——&gt;启用</p>
+<h1 id="首先得了解"><a href="#首先得了解" class="headerlink" title="首先得了解"></a>首先得了解</h1><p>首先得认识<br><!--[if lte IE 8]><![endif]--><br>记得转码字符串吗<br> 小于 &lt; ( less than ) lt;<br>大于 &gt; ( great than ) gt;<br>这里也是一样 lt（小于）e(equal) 等于<br>就是(小于等于IE 8) 的浏览器可以识别<br>用于按需加载不同的文件，兼容必备</p>
+<h1 id="中"><a href="#中" class="headerlink" title="中"></a><head>中</head></h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--[if lt IE 8]&gt;&lt;script src="../js/respond.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--[if lt IE 9]&gt;&lt;script src="http://cdn.bootcss.com/html5shiv/3.7/html5shiv.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="respond-js"><a href="#respond-js" class="headerlink" title="respond.js"></a>respond.js</h2><p>1：将<head>中的所有link引入的css文件都取出来放入数组，<br>2：遍历数组一个个发送ajax请求<br>3：ajax的callback分析reponse中的@media 和max-width，min-width分析不同viewprot下的css块<br>4：window.onload和window.onrize的时候，获取document.body.offsetWidth + docuemnt.documentElement.offsetWidth然后将相应的css的class名赋到元素上。</head></p>
+<p>加得越早，屏幕闪烁越快</p>
+<h2 id="html5shiv-js-amp-html5media-js"><a href="#html5shiv-js-amp-html5media-js" class="headerlink" title="html5shiv.js &amp; html5media.js"></a>html5shiv.js &amp; html5media.js</h2><p>含有部分html5标签,讲道理没什么用<br>html5meida兼容了video和audio标签</p>
+<h1 id="尾部（body末尾加）"><a href="#尾部（body末尾加）" class="headerlink" title="尾部（body末尾加）"></a>尾部（body末尾加）</h1><h2 id="rem-js"><a href="#rem-js" class="headerlink" title="rem.js"></a>rem.js</h2><p>使用rem布局必备，rem这玩意好用得不得了</p>
+<p>只要在判断userAgent然后按需加载就好了</p>
+<h2 id="jquery"><a href="#jquery" class="headerlink" title="jquery"></a>jquery</h2><p>使用2.0以下版本</p>
+<p>#CSS部分<br>首先就是.htc文件，这个其实就是.js包了层皮</p>
+<h2 id="ie-css3-htc"><a href="#ie-css3-htc" class="headerlink" title="ie-css3.htc"></a>ie-css3.htc</h2><p>如果使用了text-shadow,box-shadow,border-radius<br>需要加上属性position：relative；<br>在你写的css后面加上behavior：url（）；</p>
+<p>这个最好不要多用，在一个文件中渲染有上限，如果写的过多，可能会导致后面的元素背景色和元素不在一起，有黑色的条（但是审查不到这个条元素是什么）之类的</p>
+<h2 id="backgroundsize-htc"><a href="#backgroundsize-htc" class="headerlink" title="backgroundsize.htc"></a>backgroundsize.htc</h2><p>兼容了background-size：contain | cover<br>在写css的时候最好不要写复合属性如</p>
+<p>当一个识别不出来好像整个样式都不能识别</p>
+<h1 id="ie7"><a href="#ie7" class="headerlink" title="ie7"></a>ie7</h1><h2 id="width"><a href="#width" class="headerlink" title="width"></a>width</h2><p>在做向下三角的时候不设置width会默认有个width；</p>
+<h2 id="display-inline-block"><a href="#display-inline-block" class="headerlink" title="display:inline-block"></a>display:inline-block</h2><p>在ie7中</p>
+<p>如果原来是display：block（div）中设置display：inline-block 那么这个元素的下一个会换行</p>
+<h2 id="float：right："><a href="#float：right：" class="headerlink" title="float：right："></a>float：right：</h2><p>同样是换行问题<br>建议改为display：absolute；</p>
+<h2 id="position层级问题"><a href="#position层级问题" class="headerlink" title="position层级问题"></a>position层级问题</h2><p>要在ie7中topBar的userMenu覆盖contianer，<br>必须在topBar和container中都加入position：relative，而且z-index大于被覆盖元素</p>
+<h2 id="after-amp-before"><a href="#after-amp-before" class="headerlink" title=":after&amp;:before"></a>:after&amp;:before</h2><p>我一直用::after和::before来清除float的浮动流<br>但是ie8中只支持:after形式的<br>而ie7貌似不支持伪元素写法</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/26/prototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/26/prototype/" itemprop="url">prototype</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T17:10:56+08:00">
+                2018-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/26/prototype/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/26/prototype/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h1><ul>
+<li><p><code>var obj = {}</code><br>对象字面量（推荐）</p>
+</li>
+<li><p><code>var obj = new Object() / var obj = new Person()</code><br>构造方法构建</p>
+</li>
+<li><p><code>var obj = Object.create(Object.prototype)</code><br>es</p>
+<h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p>首先就是所有的对象都有其原型也就是<code>__proto__</code>这个属性，<br>而所有的函数都有一个<code>prototype</code>属性<br>是由其构造函数构造实例的时候隐式的添加一个<code>this.__proto__ = fn.prototype</code><br>可见</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//var this = &#123;&#125;;</span></span><br><span class="line">    <span class="comment">//this.__ proto__ = Animal.prototype;</span></span><br><span class="line">    <span class="comment">//this.constructor = Animal;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//return this;</span></span><br><span class="line">    <span class="comment">//js引擎作了控制,new function()&#123;&#125;只能返回一个对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> gugu = <span class="keyword">new</span> Animal(<span class="string">'gugu'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(gugu)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/es6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1333,7 +1623,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
