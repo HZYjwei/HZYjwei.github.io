@@ -284,6 +284,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/vue-cli3-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/10/vue-cli3-0/" itemprop="url">vue/cli3.0</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T22:20:49+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/10/vue-cli3-0/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/10/vue-cli3-0/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我只是知识的搬运工，详情请看官方文档</p>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><h2 id="安装vue-cli3-0"><a href="#安装vue-cli3-0" class="headerlink" title="安装vue/cli3.0"></a>安装vue/cli3.0</h2><pre><code>npm install -g @vue/cli
+</code></pre><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="/images/vue/vuecli3_dir.png" alt="目录结构" title="dir"></p>
+<h3 id="public"><a href="#public" class="headerlink" title="public"></a>public</h3><p>主要是存放html的模板，如果有需要全局加载的css文件之类的也可以在这边加入</p>
+<h3 id="src"><a href="#src" class="headerlink" title="src"></a>src</h3><p>程序的入口<br>————&gt;   main.js<br>类似react使用ReactDOM.render(vNode, DOM), App就是vue文件的入口<br>记住这边render的权重：<br><code>render &gt; template &gt; html模板</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>而且vue/cli3.0在构建的时候会询问你是否集成vuex，vuerouter，workerservice等</p>
+<h3 id="eslintrc-js"><a href="#eslintrc-js" class="headerlink" title=".eslintrc.js"></a>.eslintrc.js</h3><p>使用eslint会出现的文件，对js编码格式控制<br>可以在rules中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rule: process.env.NODE_ENV === &apos;production&apos; ? &apos;error&apos; : &apos;off&apos;,</span><br></pre></td></tr></table></figure></p>
+<h3 id="postcss-config-js"><a href="#postcss-config-js" class="headerlink" title="postcss.config.js"></a>postcss.config.js</h3><p>对postcss做一些控制，推荐《<a href="https://www.w3cplus.com/mobile/vw-layout-in-vue.html" target="_blank" rel="noopener">如何在Vue项目中使用vw实现移动端适配</a>》,挺好的布局方式</p>
+<h3 id="vue-config-js"><a href="#vue-config-js" class="headerlink" title="vue.config.js"></a>vue.config.js</h3><p>这个文件需要自己构建，强者请跳<a href="https://cli.vuejs.org/config/#global-cli-config" target="_blank" rel="noopener">官方文档</a></p>
+<h4 id="baseUrl"><a href="#baseUrl" class="headerlink" title="baseUrl"></a>baseUrl</h4><p>这是2.5版本的assetsPublicPath参数但是不分dev和build的区别<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">moudle.export= &#123;</span><br><span class="line">    baseUrl: process.env.NODE_ENV === <span class="string">'production'</span></span><br><span class="line">        ? <span class="string">'/服务器路径/'</span></span><br><span class="line">        : <span class="string">'/'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="filenameHashing"><a href="#filenameHashing" class="headerlink" title="filenameHashing"></a>filenameHashing</h4><p>Boolean(true)<br>打包文件时候加上Hash值，加上了你修改的时候可以防止浏览器缓存</p>
+<h4 id="pages"><a href="#pages" class="headerlink" title="pages"></a>pages</h4><p>多页面应用时打包需要用到<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pages: &#123;</span><br><span class="line">    index: &#123;</span><br><span class="line">      <span class="comment">// 入口文件</span></span><br><span class="line">      entry: <span class="string">'src/index/main.js'</span>,</span><br><span class="line">      <span class="comment">// 模板路径</span></span><br><span class="line">      template: <span class="string">'public/index.html'</span>,</span><br><span class="line">      <span class="comment">// 输出到 和全局的OutputDir属性配合 dist/index.html</span></span><br><span class="line">      filename: <span class="string">'index.html'</span>,</span><br><span class="line">      <span class="comment">// title属性</span></span><br><span class="line">      <span class="comment">// &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;</span></span><br><span class="line">      title: <span class="string">'Index Page'</span>,</span><br><span class="line">      <span class="comment">// 提取公共模块</span></span><br><span class="line">      chunks: [<span class="string">'chunk-vendors'</span>, <span class="string">'chunk-common'</span>, <span class="string">'index'</span>]</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure></p>
+<h4 id="productionSourceMap"><a href="#productionSourceMap" class="headerlink" title="productionSourceMap"></a>productionSourceMap</h4><p>Boolean(true) build时是否需要sourceMap</p>
+<h4 id="chainWebpack"><a href="#chainWebpack" class="headerlink" title="chainWebpack"></a>chainWebpack</h4><p>感觉吧这种链式调用很麻烦,但是官方推荐<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  chainWebpack: <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">    config.module</span><br><span class="line">      .rule(<span class="string">'vue'</span>)</span><br><span class="line">      .use(<span class="string">'vue-loader'</span>)</span><br><span class="line">        .loader(<span class="string">'vue-loader'</span>)</span><br><span class="line">        .tap(<span class="function"><span class="params">options</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">// modify the options...</span></span><br><span class="line">          <span class="keyword">return</span> options</span><br><span class="line">        &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="configureWebpack"><a href="#configureWebpack" class="headerlink" title="configureWebpack"></a>configureWebpack</h4><p>同webpack配置<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="keyword">new</span> MyAwesomeWebpackPlugin()</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack:  <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">'vux-loader'</span>).merge(config, &#123;</span><br><span class="line">      options: &#123;&#125;,</span><br><span class="line">      plugins: [<span class="string">'vux-ui'</span>]</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="css"><a href="#css" class="headerlink" title="css"></a>css</h4><p>————&gt; css.module<br>很有趣的属性，以前没发现<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span> <span class="selector-tag">module</span>&gt;</span><br><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="selector-tag">style</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">:class</span>=<span class="string">"$style.red"</span>&gt;</span></span><br><span class="line">        This should be red</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">:class</span>=<span class="string">"&#123; [$style.red]: isRed &#125;"</span>&gt;</span></span><br><span class="line">      Am I red?</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>style居然成为了一个属性<code>$style</code>,</p>
+<p>————&gt; extract<br>是否生成额外的文件引入</p>
+<p>————&gt; sourceMap<br>css的sourceMap</p>
+<p>————&gt; loaderOptions<br>通过webpack将一些全局的less或者scss加入<br>发现新大陆<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  css: &#123;</span><br><span class="line">    loaderOptions: &#123;</span><br><span class="line">      <span class="comment">// pass options to sass-loader</span></span><br><span class="line">      sass: &#123;</span><br><span class="line">        <span class="comment">// @/ is an alias to src/</span></span><br><span class="line">        <span class="comment">// so this assumes you have a file named `src/variables.scss`</span></span><br><span class="line">        data: <span class="string">`@import "@/variables.scss";`</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    host: <span class="string">'0.0.0.0'</span>,</span><br><span class="line">    port: <span class="number">8080</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'X-Custom-Foo'</span>: <span class="string">'bar'</span></span><br><span class="line">    &#125;,                                          <span class="comment">//加入request.headers</span></span><br><span class="line">    <span class="comment">// 代理</span></span><br><span class="line">    proxy: &#123;</span><br><span class="line">        <span class="string">'/api'</span>: &#123;</span><br><span class="line">            target: <span class="string">'http://localhost:3000'</span>,    <span class="comment">//说有的localhost:8080会自动替换成localhost:3000</span></span><br><span class="line">            pathRewrite: &#123;<span class="string">'^/api'</span> : <span class="string">''</span>&#125;,        <span class="comment">//文件中localhost:8080/api/get ——&gt; 实际localhost:3000/get</span></span><br><span class="line">            secure: <span class="literal">false</span>,                      <span class="comment">//允许https请求不带certificate</span></span><br><span class="line">            publicPath : <span class="string">''</span>/assets/             <span class="comment">//和webpack中的publicPath一样</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    allowedHosts: [<span class="string">'host.com'</span>,<span class="string">'host2.com'</span>],     <span class="comment">//允许发出的请求</span></span><br><span class="line">    before: <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;                     <span class="comment">//拦截器</span></span><br><span class="line">      app.get(<span class="string">'/some/path'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">        res.json(&#123; <span class="attr">custom</span>: <span class="string">'response'</span> &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,    </span><br><span class="line">    hot: <span class="literal">true</span>,                                  <span class="comment">//热启动，自动刷新</span></span><br><span class="line">    lazy: <span class="literal">true</span>,                                 <span class="comment">//只有请求了，在开始编译</span></span><br><span class="line">    open: <span class="literal">true</span>,                                 <span class="comment">//自动打开浏览器</span></span><br><span class="line">    openPage: <span class="string">'/different/page'</span>,                <span class="comment">//打开浏览器打开的url</span></span><br><span class="line">    overlay: &#123;                                  <span class="comment">//报错是全屏黑</span></span><br><span class="line">        warnings: <span class="literal">true</span>,</span><br><span class="line">        errors: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/23/ie-compat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1631,7 +1784,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1644,7 +1797,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
