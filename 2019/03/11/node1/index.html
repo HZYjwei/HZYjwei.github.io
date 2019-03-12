@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="I/O操作包括，磁盘文件，硬件，套接字(网络)等JavaScript执行在单线程中，但是I/O任务是另有线程池的  优缺点： 基于事件循环处理I/O，所以对于I/O密集型很友好 对于CPU密集型，因为基于V8引擎所以速度很快 因为是单线程，所以主线程错误会退出应用，有大量数据占用主线程的时候，会无法执行后面的代码  module Node的require的模块都会进行缓存，以减少二次引用的开销（">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node1">
+<meta property="og:url" content="http://yoursite.com/2019/03/11/node1/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="I/O操作包括，磁盘文件，硬件，套接字(网络)等JavaScript执行在单线程中，但是I/O任务是另有线程池的  优缺点： 基于事件循环处理I/O，所以对于I/O密集型很友好 对于CPU密集型，因为基于V8引擎所以速度很快 因为是单线程，所以主线程错误会退出应用，有大量数据占用主线程的时候，会无法执行后面的代码  module Node的require的模块都会进行缓存，以减少二次引用的开销（">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/node/node1.png">
+<meta property="og:updated_time" content="2019-03-11T15:05:57.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node1">
+<meta name="twitter:description" content="I/O操作包括，磁盘文件，硬件，套接字(网络)等JavaScript执行在单线程中，但是I/O任务是另有线程池的  优缺点： 基于事件循环处理I/O，所以对于I/O密集型很友好 对于CPU密集型，因为基于V8引擎所以速度很快 因为是单线程，所以主线程错误会退出应用，有大量数据占用主线程的时候，会无法执行后面的代码  module Node的require的模块都会进行缓存，以减少二次引用的开销（">
+<meta name="twitter:image" content="http://yoursite.com/images/node/node1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/11/node1/"/>
+
+
+
+
+
+  <title>node1 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/HZYjwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            something
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/node1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">node1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T23:01:26+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/node1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/node1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>I/O操作包括，磁盘文件，硬件，套接字(网络)等<br><br>JavaScript执行在单线程中，但是I/O任务是另有线程池的</p>
+</blockquote>
+<h1 id="优缺点："><a href="#优缺点：" class="headerlink" title="优缺点："></a>优缺点：</h1><ul>
+<li>基于事件循环处理I/O，所以对于I/O密集型很友好</li>
+<li>对于CPU密集型，因为基于V8引擎所以速度很快</li>
+<li><strong>因为是单线程，所以主线程错误会退出应用，有大量数据占用主线程的时候，会无法执行后面的代码</strong></li>
+</ul>
+<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><ul>
+<li>Node的require的模块都会进行缓存，以减少二次引用的开销（<strong>缓存的是编译执行之后的对象</strong>）</li>
+<li>Node对相同模块的加载都采用缓存有限的方式，核心模块（<code>net</code>， <code>http</code>，<code>path</code>）的缓存检查先于文件模块的缓存检查。</li>
+</ul>
+<p>Tip1：在require的时候，.node和.json文件加上后缀，会加快一点速度<br><br>Tip2：同步 + 缓存 = 可以减少Node单线程中阻塞是调用的缺陷</p>
+<h3 id="模块加载速度"><a href="#模块加载速度" class="headerlink" title="模块加载速度"></a>模块加载速度</h3><ol>
+<li>缓存加载</li>
+<li>核心模块加载（http核心模块，编译的时候已经是二进制了）</li>
+<li>路径加载</li>
+<li>如果是一个目录，会依次查找相应目录下的<code>index.js</code>，<code>index.node</code>，<code>index.json</code></li>
+<li>自定义模块（<code>/node_modules/</code>会沿路径逐级递归，直到根目录下的<code>node_modules</code>，层级越深，加载越慢）</li>
+</ol>
+<h4 id="require模块"><a href="#require模块" class="headerlink" title="require模块"></a>require模块</h4><p>各种后缀加载方式</p>
+<ul>
+<li><code>.js</code>模块是<code>fs.readFileSync()</code>加载并编译执行的</li>
+<li><code>.json</code>同上，但是最后会执行<code>JSON.parse()</code></li>
+<li><code>.node</code>模块是使用<code>c/c++</code>编写的，拥有更高的执行效率，Node使用<code>process.dlopen()</code>方法进行加载执行</li>
+<li>官方不推荐自定义后缀加载方式</li>
+</ul>
+<p>执行<code>Object.entries(require)</code><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[ &apos;resolve&apos;, &#123; [Function: resolve] paths: [Function: paths] &#125; ],</span><br><span class="line">[ &apos;main&apos;,</span><br><span class="line">  Module &#123;</span><br><span class="line">    id: &apos;.&apos;,</span><br><span class="line">    exports: &#123;&#125;,</span><br><span class="line">    parent: null,</span><br><span class="line">    filename: &apos;D:\\web_study\\node\\module\\index.js&apos;,</span><br><span class="line">    loaded: false,</span><br><span class="line">    children: [Array],</span><br><span class="line">    paths: [Array] &#125; ],</span><br><span class="line">[ &apos;extensions&apos;,</span><br><span class="line">  &#123; &apos;.js&apos;: [Function], &apos;.json&apos;: [Function], &apos;.node&apos;: [Function] &#125; ],</span><br><span class="line">[ &apos;cache&apos;,</span><br><span class="line">  &#123; &apos;D:\\web_study\\node\\module\\index.js&apos;: [Object],</span><br><span class="line">    &apos;D:\\web_study\\node\\module\\extra.js&apos;: [Object] &#125; ] ]</span><br></pre></td></tr></table></figure></p>
+<h3 id="阻塞I-O与非阻塞I-O"><a href="#阻塞I-O与非阻塞I-O" class="headerlink" title="阻塞I/O与非阻塞I/O"></a>阻塞I/O与非阻塞I/O</h3><p> <a href="https://www.cnblogs.com/nufangrensheng/p/3588690.html" target="_blank" rel="noopener">UNIX网络编程读书笔记：I/O模型（阻塞、非阻塞、I/O复用、信号驱动、异步）</a></p>
+<p> <strong>系统去操作一个文件的时候，都必须要先获取该文件的文件描述符</strong></p>
+<ul>
+<li>在阻塞I/O操作中：应用层调用系统内核的时候，会造成CPU的阻塞，CPU的能力得不到充分利用，<ul>
+<li>非阻塞I/O中：会不带数据直接返回，要获取数据，则需要应用层不断<code>轮询</code>确认是否完成。<br><img src="/images/node/node1.png" alt="image"></li>
+</ul>
+</li>
+</ul>
+<h4 id="轮询机制"><a href="#轮询机制" class="headerlink" title="轮询机制"></a>轮询机制</h4><p><strong>边缘触发：</strong> 只告诉进程哪些文件描述符刚刚变为就绪状态，它只说一遍，如果我们没有采取行动，那么它将不会再次告知 <br><br><strong>水平触发：</strong> select()和poll()将就绪的文件描述符告诉进程后，如果进程没有对其进行IO操作，那么下次调用select()和poll()的时候将再次报告这些文件描述符，所以它们一般不会丢失就绪的消息</p>
+<ul>
+<li>read：重复调用来检查I/O的状态，在获得最终的数据之前，CPU一直好用在等待上。</li>
+<li>select：通过检查文件标志位（fd）来进行下一步操作（长度限制1024的数组存放）</li>
+<li>poll：同select，但将fd的数组拷贝到内核中（转为链表），不受长度限制，多次遍历</li>
+<li>epoll（Linux）：事件唤醒，不用遍历，但是没有检查</li>
+</ul>
+<h2 id="Nodejs异步I-O操作"><a href="#Nodejs异步I-O操作" class="headerlink" title="Nodejs异步I/O操作"></a>Nodejs异步I/O操作</h2><blockquote>
+<p>nodejs内建模块都是通过libuv模块判断当前系统是Linux还是window在调用相应函数</p>
+</blockquote>
+<p>异步I/O（windows：IOCP， Linux：多线程）+ 阻塞I/O的方式</p>
+<ol>
+<li>组装好<strong>请求对象</strong>，送入I/O线程池等待执行后，JavaScript会立即返回，主线程可以继续执行</li>
+<li>执行I/O操作，将执行完的结果放入<strong>请求对象</strong>，并通知IOCP完成，归还线程，并进入Nodejs主线程的事件循环</li>
+</ol>
+<h2 id="Node事件循环"><a href="#Node事件循环" class="headerlink" title="Node事件循环"></a>Node事件循环</h2><ul>
+<li>Node中的proces.nextTick, setImmediate,setTimeout都是<strong>保存在一个数组中</strong>，<br>当到达相应的事件循环的时候就会将所有的回调执行</li>
+<li><p>浏览器端更像是每一次执行链表中的一个回调函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">     ┌───────────────────────┐</span><br><span class="line">┌─&gt; │        timers                        │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">│   │     I/O callbacks                    │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">│   │     idle, prepare                    │</span><br><span class="line">│   └──────────┬────────────┘      ┌───────────────┐</span><br><span class="line">│   ┌──────────┴────────────┐      │   incoming:             │</span><br><span class="line">│   │         poll                         │&lt;───┤  connections,           │</span><br><span class="line">│   └──────────┬────────────┘      │   data, etc.            │</span><br><span class="line">│   ┌──────────┴────────────┐      └───────────────┘</span><br><span class="line">│   │        check                         │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">└──┤    close callbacks                   │</span><br><span class="line">         └──────────────────────———————─┘</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>timer: setTimeout, setInterval</p>
+</li>
+<li>idle: procee.nextTick</li>
+<li>poll: 轮询的结果</li>
+<li>check：setImmediate</li>
+<li>Tip：在poll（轮询回调中的setImmediate总是比setTimeout先执行，但是setImmediate是在下一个事件）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;nextTick延迟执行1&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;nextTick延迟执行2&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(() =&gt; &#123;</span><br><span class="line">    process.nextTick(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;强势插入1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate延迟执行1_1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setTimeout延迟执行1_1&apos;);</span><br><span class="line">    &#125;, 0)</span><br><span class="line">    console.log(&apos;setImmediate延迟执行1&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(() =&gt; &#123;</span><br><span class="line">    process.nextTick(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;强势插入2&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate延迟执行2_1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setTimeout延迟执行2_1&apos;);</span><br><span class="line">    &#125;, 0)</span><br><span class="line">    console.log(&apos;setImmediate延迟执行2&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&apos;as usual&apos;)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">as usual</span><br><span class="line">nextTick延迟执行1</span><br><span class="line">nextTick延迟执行2</span><br><span class="line">setImmediate延迟执行1</span><br><span class="line">setImmediate延迟执行2</span><br><span class="line">强势插入1</span><br><span class="line">强势插入2</span><br><span class="line">setTimeout延迟执行1_1</span><br><span class="line">setTimeout延迟执行2_1</span><br><span class="line">setImmediate延迟执行1_1</span><br><span class="line">setImmediate延迟执行2_1</span><br></pre></td></tr></table></figure></p>
+<p>再来一题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">'timer1'</span>)</span><br><span class="line"> <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> 	<span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">'timer2'</span>)</span><br><span class="line"> <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> 	<span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 浏览器端</span><br><span class="line">timer1</span><br><span class="line">promise1</span><br><span class="line">timer2</span><br><span class="line">promise2</span><br><span class="line"></span><br><span class="line">// Node端</span><br><span class="line">timer1</span><br><span class="line">timer2</span><br><span class="line">promise1</span><br><span class="line">promise2</span><br></pre></td></tr></table></figure>
+<p>然后加上Promise和Poll回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(&apos;./index.html&apos;, () =&gt; &#123;</span><br><span class="line">    console.log(&apos;as usual&apos;)</span><br><span class="line">    setTimeout(() =&gt; &#123;console.log(&apos;setTimeout&apos;)&#125;, 0)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate2&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">    Promise.resolve().then(res =&gt; console.log(&apos;Promise1&apos;))</span><br><span class="line">    process.nextTick(() =&gt; console.log(&apos;nextTick&apos;))</span><br><span class="line">    Promise.resolve().then(res =&gt; console.log(&apos;Promise2&apos;))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 结果：</span><br><span class="line">as usual</span><br><span class="line">nextTick</span><br><span class="line">Promise1</span><br><span class="line">Promise2</span><br><span class="line">setImmediate2</span><br><span class="line">setTimeout</span><br></pre></td></tr></table></figure></p>
+<h3 id="setTimout"><a href="#setTimout" class="headerlink" title="setTimout"></a>setTimout</h3><p>基于红黑树，时间复杂度O(lg(n))</p>
+<h3 id="procee-nextTick"><a href="#procee-nextTick" class="headerlink" title="procee.nextTick()"></a>procee.nextTick()</h3><p>基于队列，时间复杂度O(lg(n))<br>所以 process.nextTick 比 setTimeout 效率更高</p>
+<h2 id="Node异步结论"><a href="#Node异步结论" class="headerlink" title="Node异步结论"></a>Node异步结论</h2><p><strong>主线程 &gt; process.nextTick &gt; Promise &gt; setImmediate &gt; setTimeout</strong></p>
+<blockquote>
+<p>在浏览器端，每个事件循环只处理一个大任务，但会处理完所有小任务。</p>
+</blockquote>
+<blockquote>
+<p>Node端，都在数组中中会统一处理</p>
+</blockquote>
+<p>macrotask：</p>
+<ul>
+<li>主线程</li>
+<li>I/O</li>
+<li>setImmediate</li>
+<li>setTimeout/setInterval</li>
+</ul>
+<p>microtask:</p>
+<ul>
+<li>procees.nextTick</li>
+<li>Promise</li>
+<li>主线程</li>
+</ul>
+<h2 id="异步解决方式"><a href="#异步解决方式" class="headerlink" title="异步解决方式"></a>异步解决方式</h2><ul>
+<li><p>基于事件编程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nodejs</span></span><br><span class="line"><span class="keyword">let</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>)</span><br><span class="line"><span class="keyword">let</span> evt = <span class="keyword">new</span> events.Emitter();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cb = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'dispatch'</span>)</span><br><span class="line">evt.on(<span class="string">'add'</span>, cb)</span><br><span class="line"><span class="comment">// evt.on('add', cb1) 绑定多个同名事件会一起出发</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// evt.once('add', cb) 绑定一次（消息队列）</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line">evt.emit(<span class="string">'add'</span>)</span><br><span class="line"></span><br><span class="line">evt.removeEvent(<span class="string">'add'</span>,cb)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Promise</p>
+</li>
+</ul>
+<p>前端技术不介绍</p>
+<ul>
+<li>转为同步(不推荐，违反node异步开发)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// generator</span><br><span class="line">function* add1() &#123;</span><br><span class="line">    yield 111;</span><br><span class="line">    yield 222;</span><br><span class="line">&#125;</span><br><span class="line">let handle = add1();</span><br><span class="line"></span><br><span class="line">handle.next();</span><br><span class="line">handle.next;</span><br><span class="line"></span><br><span class="line">// async await</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="加上DOM，Vue-nextTick"><a href="#加上DOM，Vue-nextTick" class="headerlink" title="加上DOM，Vue.$nextTick()"></a>加上DOM，Vue.$nextTick()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &apos;nextTick&apos;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  // 检查上一个异步任务队列（即名为callbacks的任务数组）是否派发和执行完毕了。pending此处相当于一个锁</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    // 若上一个异步任务队列已经执行完毕，则将pending设定为true（把锁锁上）</span><br><span class="line">    pending = true</span><br><span class="line">    // 是否要求一定要派发为macro任务</span><br><span class="line">    if (useMacroTask) &#123;</span><br><span class="line">      macroTimerFunc()</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // 如果不说明一定要macro 你们就全都是micro</span><br><span class="line">      microTimerFunc()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &apos;undefined&apos;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加上DOM节点之后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">macroTask--&gt;microTask</span><br><span class="line">microTask--&gt;DOM渲染</span><br><span class="line">DOM渲染--&gt;webWorker(处理web worker)</span><br></pre></td></tr></table></figure></p>
+<p>这边的DOM是渲染，经过<code>domTree</code>和<code>cssTree</code>组合而成的<code>renderTree</code>之后，能够用直接看到的。</p>
+<p>？？ 有个问题：<code>getComputedStyle(ele)[attr]</code>获取的是一个实时的属性，为什么这个栗子不成立，此时dom节点应该还没有渲染</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Promise.resolve().then(res =&gt; &#123;</span><br><span class="line">    oDiv.style[&apos;color&apos;] = &apos;blue&apos;</span><br><span class="line">    console.log(getComputedStyle(oDiv)[&apos;color&apos;])</span><br><span class="line">    // rgb(0, 0, 255)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/alg1/" rel="next" title="在数组中的找到N个数使其值为M">
+                <i class="fa fa-chevron-left"></i> 在数组中的找到N个数使其值为M
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/11/easy-mock/" rel="prev" title="easy-mock">
+                easy-mock <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/blog-avatar.jpg"
+                alt="YYY" />
+            
+              <p class="site-author-name" itemprop="name">YYY</p>
+              <p class="site-description motion-element" itemprop="description">学习前端</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点："><span class="nav-number">1.</span> <span class="nav-text">优缺点：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#module"><span class="nav-number">1.1.</span> <span class="nav-text">module</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模块加载速度"><span class="nav-number">1.1.1.</span> <span class="nav-text">模块加载速度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#require模块"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">require模块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞I-O与非阻塞I-O"><span class="nav-number">1.1.2.</span> <span class="nav-text">阻塞I/O与非阻塞I/O</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#轮询机制"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">轮询机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nodejs异步I-O操作"><span class="nav-number">1.2.</span> <span class="nav-text">Nodejs异步I/O操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node事件循环"><span class="nav-number">1.3.</span> <span class="nav-text">Node事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimout"><span class="nav-number">1.3.1.</span> <span class="nav-text">setTimout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#procee-nextTick"><span class="nav-number">1.3.2.</span> <span class="nav-text">procee.nextTick()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node异步结论"><span class="nav-number">1.4.</span> <span class="nav-text">Node异步结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步解决方式"><span class="nav-number">1.5.</span> <span class="nav-text">异步解决方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加上DOM，Vue-nextTick"><span class="nav-number">1.6.</span> <span class="nav-text">加上DOM，Vue.$nextTick()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YYY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/03/11/node1/';
+          this.page.identifier = '2019/03/11/node1/';
+          this.page.title = 'node1';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script color="0,0,200" opacity="0.7" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>

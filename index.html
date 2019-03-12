@@ -284,6 +284,917 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/optimize1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/optimize1/" itemprop="url">前端优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T23:21:29+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/optimize1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/optimize1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
+<p>webpack4之后，当mode===’production’的时候或自动压缩js</p>
+</blockquote>
+<h2 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h2><p>chunks有三个属性<code></code>all|async|initial`， 会自动将有共有文件抽离合并模块<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        commons: &#123;</span><br><span class="line">          name: <span class="string">'commons'</span>,</span><br><span class="line">          chunks: <span class="string">'all'</span>,</span><br><span class="line">          minChunks: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="dllplugin"><a href="#dllplugin" class="headerlink" title="dllplugin"></a>dllplugin</h2><p>减少构建的时间，就是相对固定的不更新的文件不用每次打包<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.dll.config.js</span></span><br><span class="line"><span class="comment">// getVendorList(), 就是获取package.json中的dependencies的keys</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getVendorList</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> file = fs.readFileSync(resolve(<span class="string">'./package.json'</span>));</span><br><span class="line">        <span class="keyword">let</span> json = <span class="built_in">JSON</span>.parse(file.toString());</span><br><span class="line">        <span class="keyword">let</span> list = <span class="built_in">Object</span>.keys(json.dependencies);</span><br><span class="line">        <span class="keyword">return</span> list.filter(<span class="function"><span class="params">item</span> =&gt;</span> item.indexOf(<span class="string">'@'</span>) === <span class="number">-1</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    mode: <span class="string">'production'</span>,</span><br><span class="line">    entry: &#123;       </span><br><span class="line">        vendor: getVendorList()</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    output: &#123;</span><br><span class="line">        <span class="comment">// 输出位静态文件</span></span><br><span class="line">        path: resolve(<span class="string">'./static/js/'</span>),</span><br><span class="line">        filename: <span class="string">'dll_[name]_[hash:8].js'</span>,</span><br><span class="line">        <span class="comment">// library和下面的dllPlugin要一样</span></span><br><span class="line">        library: <span class="string">'[name]_[hash:8]'</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">            path: path.join(resolve(<span class="string">'./static/js/'</span>), <span class="string">'[name]-manifest.json'</span>),</span><br><span class="line">            name: <span class="string">'[name]_[hash:8]'</span>,</span><br><span class="line">            context: __dirname</span><br><span class="line">        &#125;),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根目录下有个bundle-config.json，就是文件名，</span></span><br><span class="line">        <span class="keyword">new</span> AssetsWebpackPlugin(&#123;</span><br><span class="line">            filename: <span class="string">'bundle-config.json'</span>,</span><br><span class="line">            path: <span class="string">'./'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>webpack.base.config.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.base.config.js --&gt; plugins 加上</span></span><br><span class="line"><span class="comment">// Tip：context要和上面的一样，</span></span><br><span class="line"><span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest: <span class="built_in">require</span>(<span class="string">'../static/js/vendor-manifest.json'</span>),</span><br><span class="line">    context: __dirname</span><br><span class="line">&#125;),</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用了ejs模板， 将dll文件加上</span></span><br><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">    template: <span class="string">'html-withimg-loader!'</span> + resolve(<span class="string">'./src/index.ejs'</span>),</span><br><span class="line">    filename: <span class="string">'index.html'</span>,</span><br><span class="line">    inject: <span class="literal">true</span>,</span><br><span class="line">    vendorJsName: <span class="string">'/static/js/'</span> + bundleConfig.vendor.js,</span><br><span class="line">    minify: &#123;</span><br><span class="line">        removeComments: <span class="literal">true</span>,</span><br><span class="line">        collapseWhitespace: <span class="literal">true</span>,</span><br><span class="line">        removeAttributeQuotes: <span class="literal">true</span></span><br><span class="line">        <span class="comment">// more options:</span></span><br><span class="line">        <span class="comment">// https://github.com/kangax/html-minifier#options-quick-reference</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="happypack"><a href="#happypack" class="headerlink" title="happypack"></a>happypack</h2><p>说是开启多线程加载loader文件，感觉没什么大变化<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.(js|jsx|tsx)$/</span>,</span><br><span class="line">            loader: <span class="string">'happypack/loader?id=happyBabel'</span>,</span><br><span class="line">            <span class="comment">// use: 'babel-loader?cacheDirectory'</span></span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">        id: <span class="string">'happyBabel'</span>,</span><br><span class="line">        <span class="comment">// 就是module -&gt; rules =&gt; loader</span></span><br><span class="line">        loaders: [&#123;</span><br><span class="line">            loader: <span class="string">'babel-loader?cacheDirectory'</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="comment">// 共享进程池</span></span><br><span class="line">        threadPool: happyThreadPool,</span><br><span class="line">        <span class="comment">// 允许 HappyPack 输出日志</span></span><br><span class="line">        verbose: <span class="literal">true</span></span><br><span class="line">    &#125;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h2 id="import"><a href="#import" class="headerlink" title="import()"></a>import()</h2><p>需要webpack3.0^<br>import(‘/‘)是异步加载，感觉多用于路由，能够将app.js大幅度缩小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "Foo" */</span> <span class="string">'./Foo.vue'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>同样还有 React.lazy()<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// React官方demo</span></span><br><span class="line"><span class="keyword">const</span> OtherComponent = React.lazy(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./OtherComponent'</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyComponent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// Displays &lt;Spinner&gt; until OtherComponent loads</span></span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;Spinner /&gt;&#125;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;OtherComponent /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Suspense&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><p><a href="https://segmentfault.com/a/1190000016212808" target="_blank" rel="noopener">前端优化之开启 Gzip 压缩</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (config.build.productionGzip) &#123;</span><br><span class="line">  <span class="keyword">var</span> CompressionWebpackPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line">  webpackConfig.plugins.push(</span><br><span class="line">    <span class="keyword">new</span> CompressionWebpackPlugin(&#123;</span><br><span class="line">      asset: <span class="string">'[path].gz[query]'</span>,</span><br><span class="line">      algorithm: <span class="string">'gzip'</span>,</span><br><span class="line">      test: <span class="keyword">new</span> <span class="built_in">RegExp</span>(</span><br><span class="line">        <span class="string">'\\.(js|css|ttf)$'</span>   <span class="comment">// js，css的gzip效果较好</span></span><br><span class="line">      ),</span><br><span class="line">      threshold: <span class="number">10240</span>,</span><br><span class="line">      minRatio: <span class="number">0.8</span></span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他注意"><a href="#其他注意" class="headerlink" title="其他注意"></a>其他注意</h2><p>css压缩 <code>MiniCssExtractPlugin</code> 在production的时候额外生成css文件，可以缓存策略，dev环境行将style，热重载<br>url-loader limit参数可以将小图片转化为base64文件</p>
+<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>浏览器其实是分为<code>js引擎</code> 和 <code>渲染引擎</code>等的，回顾一下用户输入到浏览器显示的流程<br>1 输入网址<br>2 dns解析，返回最快的ip（本地缓存 =&gt; 系统配置dns =&gt; dns服务器（一级域名）=&gt; 二级域名 =&gt; 返回并缓存）<br>3 TCP三次握手， TLS握手（https）<br>4 http请求， 服务器负载均衡， 返回<br>6 解析html文件， （gzip格式会先解压一下）<br>7 然后开始渲染，html构建DOM树，遇到link标签会先异步加载并解析CSS构建CSSTree，遇到script标签会判断是否有async或者defer，没有则<strong>阻塞HTML的解析，而script则会等待CSS加载解析完再加载</strong>，遇见文件则会异步加载文件，<br>8 DOMTree构建完毕后触发DOMContentLoaded，可以触发事件了，当DOMTree和CSSTree构建完毕后合并成为RenderTree，然后GUI渲染</p>
+<p>在这有一些可以操作的地方</p>
+<ul>
+<li>多个dns的时候，dns预解析<code>&lt;link ref=&quot;dns-prefetch&quot; href=&quot;...&quot; /&gt;</code></li>
+<li>预加载 <code>&lt;link rel=&quot;preload&quot; href=&quot;&quot; /&gt;</code></li>
+<li>使用gzip压缩文件</li>
+<li>小图片使用base64，雪碧图，多域名（一个域名下有请求限制），cdn</li>
+<li>图片文件优先使用webp，再向下兼容png</li>
+<li>图片懒加载 scroll（passive）事件 dom.clientTop + 防抖</li>
+<li>是http2.0</li>
+<li>缓存策略 <ul>
+<li>强缓存 ：expires &amp;&amp; cache-control: max-age=1000</li>
+<li>协商缓存： cache-control:no-cache last-modified &amp;&amp; if-modified-since, etag &amp; if-none-match</li>
+<li>cookie：身份签名</li>
+<li>localStorage: 存储较为稳定的数据，如base64的icon</li>
+<li>sessionStorage： 简单的数据</li>
+<li>IndexDB: 前端数据库</li>
+<li>pwa: service worker（workbox）将网站缓存在浏览器，还可以生成桌面文件</li>
+<li>ssr: server side render，浪费服务端性能</li>
+</ul>
+</li>
+</ul>
+<h1 id="js"><a href="#js" class="headerlink" title="js"></a>js</h1><p>js引擎和渲染引擎是分开的，他们之间的教诲是需要耗时的<br>减少dom的操作以减少DOM的重绘重排，重绘的消耗小于重排</p>
+<ul>
+<li>重排：尺寸发生变化或者display:none，会导致后面的元素位置需要重新计算</li>
+<li>重绘：不影响后面的的元素，只是当前元素改变了background之类的<br>但是同时比如计算获取元素的位置也会重排来计算，浏览器会自己优化同类型的计算会形成队列一起执行<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dom.offsetTop = dom.offsetTop + <span class="number">1</span></span><br><span class="line">dom.offsetLeft = dom.offsetLeft + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这会发生4次重排，获取2次，set2次，可以所有的get放在一起，set放在一起<br>如果以dom反复修改不如，现将其从dom中移除（display：none），修改结束再加入渲染，或者加入fragment</p>
+<h1 id="EVENTLOOP"><a href="#EVENTLOOP" class="headerlink" title="EVENTLOOP"></a>EVENTLOOP</h1><p>js的event分为macroTask(主线程，setTimeout，setInterval，setImmediate)， microTask（Promise， process.nextTick）</p>
+<ul>
+<li>先执行主线程的代码，遇到microTask全部推到队列中</li>
+<li>将microTask中的全部执行</li>
+<li>渲染DOM</li>
+<li>web Worker….</li>
+<li>setTimeout到点了，推到主线程中执行<br>Tip：<strong>macroTask出队列是一个一个出的，哪怕setTimeout的时间一样，而microTask是一队一队出队列的</strong><br>所以一般更新dom是放在microTask中的，而且不要阻塞主线程</li>
+</ul>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="cdn-amp-amp-nginx"><a href="#cdn-amp-amp-nginx" class="headerlink" title="cdn &amp;&amp; nginx"></a>cdn &amp;&amp; nginx</h2><p>cdn的域名和后台的服务器域名不一样哦，可以减少cookie的传输<br>cdn和nginx对静态资源的传输更加友好<br>cdn服务器没有资源会向上层服务请求资源，请求到，则会缓存</p>
+<h2 id="http2"><a href="#http2" class="headerlink" title="http2"></a>http2</h2><ul>
+<li>采用二进制传输数据，</li>
+<li>多路复用，一个tcp连接可以发送多个请求</li>
+<li>header压缩，在两端维护索引表，记录出现的header，每次只传差值</li>
+<li>服务端push，推送必要的资源同（prefetch）</li>
+<li>（未实现）QUIC在丢失一个包的情况下可以通过其他包计算出丢失包，两个包就得重传</li>
+</ul>
+<h2 id="gzip开启"><a href="#gzip开启" class="headerlink" title="gzip开启"></a>gzip开启</h2><p>request-header加上<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accept-encoding:gzip</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/easy-mock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/easy-mock/" itemprop="url">easy-mock</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T23:08:56+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/easy-mock/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/easy-mock/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>需一台服务器获取vm</p>
+</blockquote>
+<blockquote>
+<p>easy-mock可以看做是mockjs的可视化工具</p>
+</blockquote>
+<blockquote>
+<p>前置环境</p>
+<ul>
+<li>redis</li>
+<li>mongodb</li>
+<li>git</li>
+<li>nodejs（pm2）</li>
+</ul>
+</blockquote>
+<h3 id="从redis开始"><a href="#从redis开始" class="headerlink" title="从redis开始"></a>从redis开始</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br><span class="line"></span><br><span class="line">tar xzf redis-5.0.3.tar.gz</span><br><span class="line"></span><br><span class="line">mv redis-5.0.3/ /usr/local/redis/</span><br><span class="line"></span><br><span class="line">cd redis</span><br><span class="line"></span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>redis需要c++环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc</span><br><span class="line"></span><br><span class="line">make MALLOC=libc</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd /usr/local/bin/</span><br><span class="line"></span><br><span class="line"># 运行redis</span><br><span class="line">./redis-server</span><br></pre></td></tr></table></figure></p>
+<h3 id="mongodb"><a href="#mongodb" class="headerlink" title="mongodb"></a>mongodb</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.0.6.tgz    # 下载</span><br><span class="line"></span><br><span class="line">tar -zxvf mongodb-linux-x86_64-4.0.6.tgz                                   # 解压</span><br><span class="line"></span><br><span class="line">mv  mongodb-linux-x86_64-4.0.6/ /usr/local/mongodb                         # 将解压包拷贝到指定目录</span><br></pre></td></tr></table></figure>
+<p>然后在<code>/usr/local/mongodb/bin</code>下创建文件<code>mongodb.conf</code>，配置如下，注意每行末尾的空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dbpath = /usr/local/mongodb/data/db #数据文件存放目录</span><br><span class="line">logpath = /usr/local/mongodb/data/logs/mongodb.log #日志文件存放目录</span><br><span class="line">logappend = true</span><br><span class="line">#端口号 默认为27017</span><br><span class="line">port=27017</span><br><span class="line">#以后台方式运行进程</span><br><span class="line">fork=true</span><br><span class="line">journal=true</span><br><span class="line">quiet=true</span><br></pre></td></tr></table></figure></p>
+<p>创建好了可以<code>/usr/local/mongodb/bin/mongod --config /usr/local/mongodb/bin/mongodb.conf</code>试着启动一下</p>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 添加源</span><br><span class="line">rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum install -y nginx</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">systemctl start nginx.service</span><br><span class="line"></span><br><span class="line"># 开机启动</span><br><span class="line">systemctl enable nginx.service</span><br><span class="line"></span><br><span class="line"># 配置路径</span><br><span class="line">vi /etc/nginx/conf.d/default.conf</span><br></pre></td></tr></table></figure>
+<h3 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h3><p>我用的centos7<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.d/rc.local</span><br><span class="line"></span><br><span class="line"># 在文档的末尾加上，不能缺&amp;，代表后台启动</span><br><span class="line">/usr/local/bin/redis-server &amp;</span><br><span class="line">/usr/local/mongodb/bin/mongod --config /usr/local/mongodb/bin/mongodb.conf</span><br></pre></td></tr></table></figure></p>
+<p>部分机器需要进行对改文件进行授权，不能可能不会开机启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 授权</span><br><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure></p>
+<h3 id="系统不能重启"><a href="#系统不能重启" class="headerlink" title="系统不能重启"></a>系统不能重启</h3><blockquote>
+<p>就是你的<code>/etc/rc.d/rc.local</code>文件写的有问题，用单用户模式进入</p>
+</blockquote>
+<p>开机的时候直接按’e’，然后在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if</span><br><span class="line">    xxx</span><br><span class="line">else</span><br><span class="line">    xxx</span><br><span class="line">fi</span><br><span class="line">    xxx ro crashkernel=xxxxx</span><br></pre></td></tr></table></figure></p>
+<p>将<code>ro</code>修改为<code>rw init=/bin/sh</code>（ro =&gt; readOnly,  后面是权限）</p>
+<p>然后进系统在修改<code>/etc/rc.d/rc.local</code></p>
+<h3 id="node及其他"><a href="#node及其他" class="headerlink" title="node及其他"></a>node及其他</h3><blockquote>
+<p>node, pm2, git</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># wget https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-x64.tar.xz    // 下载</span><br><span class="line"></span><br><span class="line"># tar xf  node-v10.9.0-linux-x64.tar.xz       // 解压</span><br><span class="line"></span><br><span class="line"># mv /node-v10.9.0-linux-x64 /usr/software/nodejs           // 进入解压目录</span><br><span class="line"></span><br><span class="line"># /usr/software/nodejs/bin/node -v                               // 执行node命令 查看版本</span><br><span class="line"></span><br><span class="line">// 软连接，将npm和node加到用户命令中去</span><br><span class="line"># ln -s /usr/software/nodejs/bin/npm   /usr/local/bin/ </span><br><span class="line"></span><br><span class="line"># ln -s /usr/software/nodejs/bin/node   /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 同理需要pm2管理node项目</span><br><span class="line">npm install -g pm2</span><br><span class="line"></span><br><span class="line"># ln -s /usr/software/nodejs/bin/pm2   /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// git 在yum直接有</span><br><span class="line"># yum update</span><br><span class="line"></span><br><span class="line">yum install git</span><br><span class="line"></span><br><span class="line">git clone https://github.com/easy-mock/easy-mock.git</span><br><span class="line"></span><br><span class="line">mv easy-mock /usr/local/easy-mock</span><br><span class="line"></span><br><span class="line">cd /sur/local/easy-mock</span><br><span class="line">npm install</span><br><span class="line">npm run build</span><br><span class="line">NODE_ENV=production pm2 start app.js --name=easy-mock</span><br></pre></td></tr></table></figure>
+<h3 id="可能问题"><a href="#可能问题" class="headerlink" title="可能问题"></a>可能问题</h3><blockquote>
+<p>node版本</p>
+<ul>
+<li>安装n</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install n -g</span><br><span class="line"></span><br><span class="line">ln -s /usr/software/nodejs/bin/n /usr/local/bin</span><br><span class="line"></span><br><span class="line">n v8.11.3</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装nvm<br>很懒，没做</li>
+</ul>
+<blockquote>
+<p>防火墙端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 开启防火墙</span><br><span class="line"># systemctl start firewalld</span><br><span class="line"></span><br><span class="line">// 开启tcp/8000端口</span><br><span class="line"># firewall-cmd --add-prot=8000/tcp --permanent</span><br><span class="line"></span><br><span class="line">// 重启应用配置</span><br><span class="line"># firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">// 查看端口启动情况</span><br><span class="line"># firewall-cmd --list-ports</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/node1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/node1/" itemprop="url">node1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T23:01:26+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/node1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/node1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>I/O操作包括，磁盘文件，硬件，套接字(网络)等<br><br>JavaScript执行在单线程中，但是I/O任务是另有线程池的</p>
+</blockquote>
+<h1 id="优缺点："><a href="#优缺点：" class="headerlink" title="优缺点："></a>优缺点：</h1><ul>
+<li>基于事件循环处理I/O，所以对于I/O密集型很友好</li>
+<li>对于CPU密集型，因为基于V8引擎所以速度很快</li>
+<li><strong>因为是单线程，所以主线程错误会退出应用，有大量数据占用主线程的时候，会无法执行后面的代码</strong></li>
+</ul>
+<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><ul>
+<li>Node的require的模块都会进行缓存，以减少二次引用的开销（<strong>缓存的是编译执行之后的对象</strong>）</li>
+<li>Node对相同模块的加载都采用缓存有限的方式，核心模块（<code>net</code>， <code>http</code>，<code>path</code>）的缓存检查先于文件模块的缓存检查。</li>
+</ul>
+<p>Tip1：在require的时候，.node和.json文件加上后缀，会加快一点速度<br><br>Tip2：同步 + 缓存 = 可以减少Node单线程中阻塞是调用的缺陷</p>
+<h3 id="模块加载速度"><a href="#模块加载速度" class="headerlink" title="模块加载速度"></a>模块加载速度</h3><ol>
+<li>缓存加载</li>
+<li>核心模块加载（http核心模块，编译的时候已经是二进制了）</li>
+<li>路径加载</li>
+<li>如果是一个目录，会依次查找相应目录下的<code>index.js</code>，<code>index.node</code>，<code>index.json</code></li>
+<li>自定义模块（<code>/node_modules/</code>会沿路径逐级递归，直到根目录下的<code>node_modules</code>，层级越深，加载越慢）</li>
+</ol>
+<h4 id="require模块"><a href="#require模块" class="headerlink" title="require模块"></a>require模块</h4><p>各种后缀加载方式</p>
+<ul>
+<li><code>.js</code>模块是<code>fs.readFileSync()</code>加载并编译执行的</li>
+<li><code>.json</code>同上，但是最后会执行<code>JSON.parse()</code></li>
+<li><code>.node</code>模块是使用<code>c/c++</code>编写的，拥有更高的执行效率，Node使用<code>process.dlopen()</code>方法进行加载执行</li>
+<li>官方不推荐自定义后缀加载方式</li>
+</ul>
+<p>执行<code>Object.entries(require)</code><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[ &apos;resolve&apos;, &#123; [Function: resolve] paths: [Function: paths] &#125; ],</span><br><span class="line">[ &apos;main&apos;,</span><br><span class="line">  Module &#123;</span><br><span class="line">    id: &apos;.&apos;,</span><br><span class="line">    exports: &#123;&#125;,</span><br><span class="line">    parent: null,</span><br><span class="line">    filename: &apos;D:\\web_study\\node\\module\\index.js&apos;,</span><br><span class="line">    loaded: false,</span><br><span class="line">    children: [Array],</span><br><span class="line">    paths: [Array] &#125; ],</span><br><span class="line">[ &apos;extensions&apos;,</span><br><span class="line">  &#123; &apos;.js&apos;: [Function], &apos;.json&apos;: [Function], &apos;.node&apos;: [Function] &#125; ],</span><br><span class="line">[ &apos;cache&apos;,</span><br><span class="line">  &#123; &apos;D:\\web_study\\node\\module\\index.js&apos;: [Object],</span><br><span class="line">    &apos;D:\\web_study\\node\\module\\extra.js&apos;: [Object] &#125; ] ]</span><br></pre></td></tr></table></figure></p>
+<h3 id="阻塞I-O与非阻塞I-O"><a href="#阻塞I-O与非阻塞I-O" class="headerlink" title="阻塞I/O与非阻塞I/O"></a>阻塞I/O与非阻塞I/O</h3><p> <a href="https://www.cnblogs.com/nufangrensheng/p/3588690.html" target="_blank" rel="noopener">UNIX网络编程读书笔记：I/O模型（阻塞、非阻塞、I/O复用、信号驱动、异步）</a></p>
+<p> <strong>系统去操作一个文件的时候，都必须要先获取该文件的文件描述符</strong></p>
+<ul>
+<li>在阻塞I/O操作中：应用层调用系统内核的时候，会造成CPU的阻塞，CPU的能力得不到充分利用，<ul>
+<li>非阻塞I/O中：会不带数据直接返回，要获取数据，则需要应用层不断<code>轮询</code>确认是否完成。<br><img src="/images/node/node1.png" alt="image"></li>
+</ul>
+</li>
+</ul>
+<h4 id="轮询机制"><a href="#轮询机制" class="headerlink" title="轮询机制"></a>轮询机制</h4><p><strong>边缘触发：</strong> 只告诉进程哪些文件描述符刚刚变为就绪状态，它只说一遍，如果我们没有采取行动，那么它将不会再次告知 <br><br><strong>水平触发：</strong> select()和poll()将就绪的文件描述符告诉进程后，如果进程没有对其进行IO操作，那么下次调用select()和poll()的时候将再次报告这些文件描述符，所以它们一般不会丢失就绪的消息</p>
+<ul>
+<li>read：重复调用来检查I/O的状态，在获得最终的数据之前，CPU一直好用在等待上。</li>
+<li>select：通过检查文件标志位（fd）来进行下一步操作（长度限制1024的数组存放）</li>
+<li>poll：同select，但将fd的数组拷贝到内核中（转为链表），不受长度限制，多次遍历</li>
+<li>epoll（Linux）：事件唤醒，不用遍历，但是没有检查</li>
+</ul>
+<h2 id="Nodejs异步I-O操作"><a href="#Nodejs异步I-O操作" class="headerlink" title="Nodejs异步I/O操作"></a>Nodejs异步I/O操作</h2><blockquote>
+<p>nodejs内建模块都是通过libuv模块判断当前系统是Linux还是window在调用相应函数</p>
+</blockquote>
+<p>异步I/O（windows：IOCP， Linux：多线程）+ 阻塞I/O的方式</p>
+<ol>
+<li>组装好<strong>请求对象</strong>，送入I/O线程池等待执行后，JavaScript会立即返回，主线程可以继续执行</li>
+<li>执行I/O操作，将执行完的结果放入<strong>请求对象</strong>，并通知IOCP完成，归还线程，并进入Nodejs主线程的事件循环</li>
+</ol>
+<h2 id="Node事件循环"><a href="#Node事件循环" class="headerlink" title="Node事件循环"></a>Node事件循环</h2><ul>
+<li>Node中的proces.nextTick, setImmediate,setTimeout都是<strong>保存在一个数组中</strong>，<br>当到达相应的事件循环的时候就会将所有的回调执行</li>
+<li><p>浏览器端更像是每一次执行链表中的一个回调函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">     ┌───────────────────────┐</span><br><span class="line">┌─&gt; │        timers                        │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">│   │     I/O callbacks                    │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">│   │     idle, prepare                    │</span><br><span class="line">│   └──────────┬────────────┘      ┌───────────────┐</span><br><span class="line">│   ┌──────────┴────────────┐      │   incoming:             │</span><br><span class="line">│   │         poll                         │&lt;───┤  connections,           │</span><br><span class="line">│   └──────────┬────────────┘      │   data, etc.            │</span><br><span class="line">│   ┌──────────┴────────────┐      └───────────────┘</span><br><span class="line">│   │        check                         │</span><br><span class="line">│   └──────────┬────────────┘</span><br><span class="line">│   ┌──────────┴────────────┐</span><br><span class="line">└──┤    close callbacks                   │</span><br><span class="line">         └──────────────────────———————─┘</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>timer: setTimeout, setInterval</p>
+</li>
+<li>idle: procee.nextTick</li>
+<li>poll: 轮询的结果</li>
+<li>check：setImmediate</li>
+<li>Tip：在poll（轮询回调中的setImmediate总是比setTimeout先执行，但是setImmediate是在下一个事件）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;nextTick延迟执行1&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;nextTick延迟执行2&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(() =&gt; &#123;</span><br><span class="line">    process.nextTick(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;强势插入1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate延迟执行1_1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setTimeout延迟执行1_1&apos;);</span><br><span class="line">    &#125;, 0)</span><br><span class="line">    console.log(&apos;setImmediate延迟执行1&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(() =&gt; &#123;</span><br><span class="line">    process.nextTick(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;强势插入2&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate延迟执行2_1&apos;);</span><br><span class="line">    &#125;)</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setTimeout延迟执行2_1&apos;);</span><br><span class="line">    &#125;, 0)</span><br><span class="line">    console.log(&apos;setImmediate延迟执行2&apos;);</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&apos;as usual&apos;)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">as usual</span><br><span class="line">nextTick延迟执行1</span><br><span class="line">nextTick延迟执行2</span><br><span class="line">setImmediate延迟执行1</span><br><span class="line">setImmediate延迟执行2</span><br><span class="line">强势插入1</span><br><span class="line">强势插入2</span><br><span class="line">setTimeout延迟执行1_1</span><br><span class="line">setTimeout延迟执行2_1</span><br><span class="line">setImmediate延迟执行1_1</span><br><span class="line">setImmediate延迟执行2_1</span><br></pre></td></tr></table></figure></p>
+<p>再来一题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">'timer1'</span>)</span><br><span class="line"> <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> 	<span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">'timer2'</span>)</span><br><span class="line"> <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> 	<span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 浏览器端</span><br><span class="line">timer1</span><br><span class="line">promise1</span><br><span class="line">timer2</span><br><span class="line">promise2</span><br><span class="line"></span><br><span class="line">// Node端</span><br><span class="line">timer1</span><br><span class="line">timer2</span><br><span class="line">promise1</span><br><span class="line">promise2</span><br></pre></td></tr></table></figure>
+<p>然后加上Promise和Poll回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(&apos;./index.html&apos;, () =&gt; &#123;</span><br><span class="line">    console.log(&apos;as usual&apos;)</span><br><span class="line">    setTimeout(() =&gt; &#123;console.log(&apos;setTimeout&apos;)&#125;, 0)</span><br><span class="line">    setImmediate(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;setImmediate2&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">    Promise.resolve().then(res =&gt; console.log(&apos;Promise1&apos;))</span><br><span class="line">    process.nextTick(() =&gt; console.log(&apos;nextTick&apos;))</span><br><span class="line">    Promise.resolve().then(res =&gt; console.log(&apos;Promise2&apos;))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 结果：</span><br><span class="line">as usual</span><br><span class="line">nextTick</span><br><span class="line">Promise1</span><br><span class="line">Promise2</span><br><span class="line">setImmediate2</span><br><span class="line">setTimeout</span><br></pre></td></tr></table></figure></p>
+<h3 id="setTimout"><a href="#setTimout" class="headerlink" title="setTimout"></a>setTimout</h3><p>基于红黑树，时间复杂度O(lg(n))</p>
+<h3 id="procee-nextTick"><a href="#procee-nextTick" class="headerlink" title="procee.nextTick()"></a>procee.nextTick()</h3><p>基于队列，时间复杂度O(lg(n))<br>所以 process.nextTick 比 setTimeout 效率更高</p>
+<h2 id="Node异步结论"><a href="#Node异步结论" class="headerlink" title="Node异步结论"></a>Node异步结论</h2><p><strong>主线程 &gt; process.nextTick &gt; Promise &gt; setImmediate &gt; setTimeout</strong></p>
+<blockquote>
+<p>在浏览器端，每个事件循环只处理一个大任务，但会处理完所有小任务。</p>
+</blockquote>
+<blockquote>
+<p>Node端，都在数组中中会统一处理</p>
+</blockquote>
+<p>macrotask：</p>
+<ul>
+<li>主线程</li>
+<li>I/O</li>
+<li>setImmediate</li>
+<li>setTimeout/setInterval</li>
+</ul>
+<p>microtask:</p>
+<ul>
+<li>procees.nextTick</li>
+<li>Promise</li>
+<li>主线程</li>
+</ul>
+<h2 id="异步解决方式"><a href="#异步解决方式" class="headerlink" title="异步解决方式"></a>异步解决方式</h2><ul>
+<li><p>基于事件编程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nodejs</span></span><br><span class="line"><span class="keyword">let</span> events = <span class="built_in">require</span>(<span class="string">'events'</span>)</span><br><span class="line"><span class="keyword">let</span> evt = <span class="keyword">new</span> events.Emitter();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cb = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'dispatch'</span>)</span><br><span class="line">evt.on(<span class="string">'add'</span>, cb)</span><br><span class="line"><span class="comment">// evt.on('add', cb1) 绑定多个同名事件会一起出发</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// evt.once('add', cb) 绑定一次（消息队列）</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line">evt.emit(<span class="string">'add'</span>)</span><br><span class="line"></span><br><span class="line">evt.removeEvent(<span class="string">'add'</span>,cb)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Promise</p>
+</li>
+</ul>
+<p>前端技术不介绍</p>
+<ul>
+<li>转为同步(不推荐，违反node异步开发)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// generator</span><br><span class="line">function* add1() &#123;</span><br><span class="line">    yield 111;</span><br><span class="line">    yield 222;</span><br><span class="line">&#125;</span><br><span class="line">let handle = add1();</span><br><span class="line"></span><br><span class="line">handle.next();</span><br><span class="line">handle.next;</span><br><span class="line"></span><br><span class="line">// async await</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="加上DOM，Vue-nextTick"><a href="#加上DOM，Vue-nextTick" class="headerlink" title="加上DOM，Vue.$nextTick()"></a>加上DOM，Vue.$nextTick()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &apos;nextTick&apos;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  // 检查上一个异步任务队列（即名为callbacks的任务数组）是否派发和执行完毕了。pending此处相当于一个锁</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    // 若上一个异步任务队列已经执行完毕，则将pending设定为true（把锁锁上）</span><br><span class="line">    pending = true</span><br><span class="line">    // 是否要求一定要派发为macro任务</span><br><span class="line">    if (useMacroTask) &#123;</span><br><span class="line">      macroTimerFunc()</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // 如果不说明一定要macro 你们就全都是micro</span><br><span class="line">      microTimerFunc()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &apos;undefined&apos;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加上DOM节点之后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">macroTask--&gt;microTask</span><br><span class="line">microTask--&gt;DOM渲染</span><br><span class="line">DOM渲染--&gt;webWorker(处理web worker)</span><br></pre></td></tr></table></figure></p>
+<p>这边的DOM是渲染，经过<code>domTree</code>和<code>cssTree</code>组合而成的<code>renderTree</code>之后，能够用直接看到的。</p>
+<p>？？ 有个问题：<code>getComputedStyle(ele)[attr]</code>获取的是一个实时的属性，为什么这个栗子不成立，此时dom节点应该还没有渲染</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Promise.resolve().then(res =&gt; &#123;</span><br><span class="line">    oDiv.style[&apos;color&apos;] = &apos;blue&apos;</span><br><span class="line">    console.log(getComputedStyle(oDiv)[&apos;color&apos;])</span><br><span class="line">    // rgb(0, 0, 255)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/alg1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/alg1/" itemprop="url">在数组中的找到N个数使其值为M</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T22:40:28+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/alg1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/alg1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这两天在掘金上看到一篇文章<a href="https://juejin.im/post/5c81d543f265da2deb6ad691" target="_blank" rel="noopener">从一个数组中找出 N 个数，其和为 M 的所有可能–最 nice 的解法</a>当时瞬间懵逼，啥玩楞，看了两遍后看懂了，特别马克一下</p>
+<h1 id="从一个数组中取出N个数使其值为M"><a href="#从一个数组中取出N个数使其值为M" class="headerlink" title="从一个数组中取出N个数使其值为M"></a>从一个数组中取出<code>N</code>个数使其值为<code>M</code></h1><blockquote>
+<p>首先将<code>[1, ,2, 3, 4]</code>中取出2个值使其值为5吧，从一个个开始取n那么可能性有<code>C 4-&gt;2</code>，然后再判断取出来<code>count</code>是否符合<code>N</code>，再将取出来的<code>sum</code>和<code>M</code>比较是否相等</p>
+</blockquote>
+<h2 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h2><p>原文中是将可能性转化为二进制进行计算的</p>
+<p>从<code>[1, 2, 3, 4]</code>中取数最多的可能性有<code>2^4</code>个（取0个 ==&gt; 取4个）</p>
+<p>可以使用<code>1111</code>代表四个位置的选中状态，每个<code>1</code>代表选中了一个值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> len = arr.length, bit = <span class="number">1</span> &lt;&lt; len, res = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; bit; i++) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么需要计算选中了多少个<code>1</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种</span></span><br><span class="line"><span class="keyword">const</span> n = <span class="function"><span class="params">num</span> =&gt;</span> num.toString(<span class="number">2</span>).replace(<span class="regexp">/0/g</span>, <span class="string">''</span>).length</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种</span></span><br><span class="line"><span class="keyword">const</span> n = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (num) &#123;</span><br><span class="line">        num &amp;= (num - <span class="number">1</span>)</span><br><span class="line">        count++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>可以通过位运算中的<code>&amp;</code>去除<code>0</code>，利用<code>n &amp; (n-1)</code>可以去除二进制中的最后一位</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1110 &amp; 1101 === 1100</span><br><span class="line">1100 &amp; 1011 === 1000</span><br><span class="line">1000 &amp; 0111 === 0</span><br></pre></td></tr></table></figure></p>
+<h3 id="判断选中了哪几位"><a href="#判断选中了哪几位" class="headerlink" title="判断选中了哪几位"></a>判断选中了哪几位</h3><p>从第<code>14(1110)</code>种可能性来说</p>
+<p>建立对应的映射(即第n种状态下选中了哪几位)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// [1, 2, 3, 4]</span><br><span class="line">1 &lt;&lt; 0 // 0001 1</span><br><span class="line">1 &lt;&lt; 1 // 0010 2</span><br><span class="line">1 &lt;&lt; 2 // 0100 4</span><br><span class="line">1 &lt;&lt; 3 // 1000 8</span><br><span class="line"></span><br><span class="line">14 &amp; (1 &lt;&lt; 0) === 0</span><br><span class="line">14 &amp; (1 &lt;&lt; 1) === 2</span><br><span class="line">14 &amp; (1 &lt;&lt; 2) === 4</span><br><span class="line">14 &amp; (1 &lt;&lt; 3) === 8</span><br><span class="line"></span><br><span class="line">// 所以</span><br><span class="line">// n &amp; (1 &lt;&lt; idx) !== 0 即为选中</span><br><span class="line">// n &amp; (1 &lt;&lt; len - 1 - idx)也是一样的</span><br></pre></td></tr></table></figure></p>
+<h2 id="完整源码"><a href="#完整源码" class="headerlink" title="完整源码"></a>完整源码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> search = <span class="function">(<span class="params">arr, count, sum</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 计算第n中种可能选中了几个值</span></span><br><span class="line">    <span class="keyword">const</span> n = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span>(num) &#123;</span><br><span class="line">            num &amp;= (num - <span class="number">1</span>)</span><br><span class="line">            count++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> len = arr.length, bit = <span class="number">1</span> &lt;&lt; len, res = []</span><br><span class="line">    <span class="comment">// 遍历第1 ==&gt; 2^n - 1中可能</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; bit; i++ )&#123;</span><br><span class="line">        <span class="keyword">if</span>(n(i) === count) &#123;</span><br><span class="line">            <span class="keyword">let</span> s = <span class="number">0</span>,temp = []</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 遍历数组并判断当前可能是否选中了</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(i &amp; <span class="number">1</span> &lt;&lt; j !== <span class="number">0</span>) &#123;</span><br><span class="line">                    s += arr[j]</span><br><span class="line">                    temp.push(arr[j])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(s == sum) &#123;</span><br><span class="line">                res.push(temp)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/redux1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/redux1/" itemprop="url">redux</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T22:05:16+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/redux1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/redux1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Redux源码"><a href="#Redux源码" class="headerlink" title="Redux源码"></a>Redux源码</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>一般做前端的都接触过数据管理的库，vuex，redux(flux)， 不同的是vuex是完全依赖于vue的，不能脱离于vue单独使用，而redux则是单独的，在任何地方都能使用的数据管理库</p>
+<p>其数据流程为<br><img src="/images/redux/redux1.png" alt="redux数据流程"></p>
+<ul>
+<li><code>reducer</code> （就是处理函数，传入<code>state</code>和<code>action</code>，根据不同的action，操作不同的state，必定返回一个新的<code>state</code>）</li>
+<li><code>action</code> （通过<code>dispath(action)</code>执行一个<code>reducer</code>）</li>
+<li><code>store</code> <code>{getState, dispatch, subscribe}</code>其实就是整个<code>redux</code>数据的集合<ul>
+<li><code>getState</code> 获取全部的数据集合</li>
+<li><code>dispatch</code> 发布一个<code>action</code></li>
+<li><code>subscribe</code> 对<code>state</code>进行订阅，每次<code>reducer</code>之后都会执行一次，返回一个<code>unsubscribe</code>，执行可以卸载订阅</li>
+</ul>
+</li>
+</ul>
+<p>首先redux中有几个重要的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">createStore(reducer, action, enhancer) =&gt; store&#123;getState, dispatch, subscribe&#125;</span><br><span class="line"></span><br><span class="line">applyMiddleware(...middlewares) =&gt; store</span><br><span class="line"></span><br><span class="line">combineReducers(&#123;...reducers&#125;) =&gt; 合并reducer的,最外面以对象</span><br><span class="line"></span><br><span class="line">compose(...fns) =&gt; 合并函数的</span><br></pre></td></tr></table></figure></p>
+<p>废话不多说</p>
+<h2 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> INITACTION = &#123;</span><br><span class="line">    type: <span class="string">'@@redux/myinit'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> createStore(reducer, preloadState, enhancer) &#123;</span><br><span class="line">    <span class="keyword">let</span> state = <span class="literal">undefined</span>, listeners = [], isDispatch = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 第二个参数为function，且没有第三个参数的时候，第二个参数就是中间件</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> preloadState === <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> enhancer === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        enhancer = preloadState</span><br><span class="line">        preloadState = <span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这个可以参考applyMiddleware的实现</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> enhancer === <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> enhancer(createStore)(reducer, preloadState)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    state = preloadState</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回state</span></span><br><span class="line">    <span class="keyword">const</span> getState = <span class="function"><span class="params">()</span> =&gt;</span> state</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 订阅，返回一个取消订阅的函数</span></span><br><span class="line">    <span class="keyword">const</span> subscribe = <span class="function">(<span class="params">fn</span>) =&gt;</span> &#123;</span><br><span class="line">        listeners.push(fn)</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> idx = listeners.indexOf(fn)</span><br><span class="line">            listeners.splice(idx, <span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 发布action，并触发订阅事件</span></span><br><span class="line">    <span class="keyword">const</span> dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(isDispatch) &#123;</span><br><span class="line">            <span class="keyword">throw</span> newError(<span class="string">'上个dispatch没结束呢'</span>)    </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            isDispatch = <span class="literal">true</span></span><br><span class="line">            state = reducer(state, action)</span><br><span class="line">        &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">            isDispatch = <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        listeners.forEach(<span class="function"><span class="params">listener</span> =&gt;</span> listener())</span><br><span class="line">        <span class="keyword">return</span> action</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果createStore没给默认值，那么reducer中就给一下吧</span></span><br><span class="line">    state = reducer(state, INITACTION)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        getState,</span><br><span class="line">        subscribe,</span><br><span class="line">        dispatch</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> combineReducers = <span class="function">(<span class="params">reducers</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> newReducers = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> reducers) &#123;</span><br><span class="line">        newReducers[key] = reducers[key](<span class="literal">undefined</span>, INITACTION)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newReducers</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 想一下 bindActionCreators(actions, dispatch) === mapDispatchToProps</span></span><br><span class="line"><span class="comment">// 也就是 返回一个</span></span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//    key : () =&gt; dispatch(action)</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bindActionCreators = <span class="function">(<span class="params">actionCreators, dispatch</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> actionCreators !== <span class="string">'object'</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'action is not a object'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> map = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> actionCreators) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 所以一般action文件都是返回一个返回action的函数</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> actionCreators[key] === <span class="string">'function'</span>)&#123;</span><br><span class="line">            map[key] = <span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch(actionCreators(..args))</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> map</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h2><blockquote>
+<p>就是redux的中间件，比如redux-logger， redux-thunk，redux-promise， redux-saga</p>
+</blockquote>
+<p>先说说使用吧</p>
+<p>在基础的redux中，redux的reducer只能<code>dispatch({})</code>这个形式，加上redux-thunk后能够<code>dispath(function(){})</code>这样</p>
+<h3 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a>redux-thunk</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// redux-thunk</span></span><br><span class="line"><span class="comment">// 传入的函数会自带一个store.dispatch</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> todoCreatorsThunk = <span class="function"><span class="params">()</span> =&gt;</span> dispatch =&gt; &#123;</span><br><span class="line">    fetch(<span class="string">'/get'</span>)</span><br><span class="line">        .then(<span class="function"><span class="params">list</span> =&gt;</span> dispath(&#123;</span><br><span class="line">            type: <span class="string">'INIT'</span>,</span><br><span class="line">            list</span><br><span class="line">        &#125;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="redux-promise"><a href="#redux-promise" class="headerlink" title="redux-promise"></a>redux-promise</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// redux-promise</span></span><br><span class="line"><span class="comment">// 能够接受返回Promise对象，以最终resolve的action来dispatch</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> todoCreatePromise = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        fetch(<span class="string">'/get'</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(&#123;</span><br><span class="line">                type: <span class="string">'INIT'</span>,</span><br><span class="line">                list</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="redux-saga"><a href="#redux-saga" class="headerlink" title="redux-saga"></a>redux-saga</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// saga是将先观察者模式观察固定的几个action</span></span><br><span class="line"><span class="comment">// 如果这几个action被dispatch，会触发对应的回调，发送请求，获取结果，然后dispatch，</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// saga.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; takeEvery, put &#125; <span class="keyword">from</span> <span class="string">'redux-saga/effects'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>* <span class="title">mySagas</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> takeEvery(INIT, getData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">getData</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> data = <span class="keyword">yield</span> axios.get(<span class="string">'/list.json'</span>)</span><br><span class="line">    <span class="comment">// 这是生成以个action</span></span><br><span class="line">    <span class="keyword">const</span> action = setData(data)</span><br><span class="line">    <span class="comment">// put(action) === dispatch(action)</span></span><br><span class="line">    <span class="keyword">yield</span> put(action)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// store.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> createSagaMiddeleware <span class="keyword">from</span> <span class="string">'redux-saga'</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducer'</span></span><br><span class="line"><span class="keyword">import</span> mySagas <span class="keyword">from</span> <span class="string">'./saga'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// saga的middleware需要create</span></span><br><span class="line"><span class="keyword">const</span> sagaMiddleware = createSagaMiddeleware();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(</span><br><span class="line">    reducer,    </span><br><span class="line">    applyMiddleware(sagaMiddleware)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记得需要run一下</span></span><br><span class="line">sagaMiddleware.run(mySagas)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store</span><br></pre></td></tr></table></figure>
+<h3 id="applyMiddleware源码"><a href="#applyMiddleware源码" class="headerlink" title="applyMiddleware源码"></a>applyMiddleware源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const expose = (..fns) =&gt;  fns.reduce((last, now) =&gt; (..args) =&gt; last(now(...args)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 最终的dispatch = () =&gt; &#123; ... dispatch() ...&#125;</span><br><span class="line">export const applyMiddleware = (...middlewares) =&gt; createStore =&gt; (reducer, preloadState) =&gt; &#123;</span><br><span class="line">    // 本质就是替换dispatch，可以作为左偏函数</span><br><span class="line">    let store = createStore(reducer, preloadState);</span><br><span class="line">    let middlewareAPI = &#123;</span><br><span class="line">        getState: store.getState,</span><br><span class="line">        dispatch: (..args) =&gt; dispatch(...args)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 所以middleware的写法是(store) =&gt; dipatch  =&gt; action =&gt; &#123; ... &#125;</span><br><span class="line">    const middlewareAPIs = middlewares.map(item =&gt; item(middlewareAPI))</span><br><span class="line">    dispath = compose(...midmiddlewareAPIse)(dispatch)</span><br><span class="line">    </span><br><span class="line">    return&#123;</span><br><span class="line">        ...store,</span><br><span class="line">        dispatch</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h1><blockquote>
+<p>可以使用react-redux对react项目进行数据的管理</p>
+</blockquote>
+<p>react-redux主要提供了两个API</p>
+<ul>
+<li><provider> 可以看做Context的Provider</provider></li>
+<li>connect 是一个高阶组件，内部使用Context的Consumer</li>
+</ul>
+<h2 id="react-redux模拟源码"><a href="#react-redux模拟源码" class="headerlink" title="react-redux模拟源码"></a>react-redux模拟源码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Context = React.createContext(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">Provider</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">Context.Provider</span> <span class="attr">value</span>=<span class="string">&#123;</span> <span class="attr">props.store</span> &#125;&gt;</span></span></span><br><span class="line"><span class="xml">                &#123; ...props.children &#125;</span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">Context.Provider</span>&gt;</span>)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// connect(mapStateToProps, mapDispatchToProps)(Component)</span></span><br><span class="line"><span class="comment">// 且返回的是一个function</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> connect = <span class="function">(<span class="params">mapStateToProps, mapDispatchToProps</span>) =&gt;</span> Component =&gt; <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 利用函数组件去订阅，或者hooks effect</span></span><br><span class="line">    calss Connect extends React.Component&#123;</span><br><span class="line">        state = <span class="keyword">this</span>.props.store.getState()</span><br><span class="line">        </span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">            <span class="keyword">let</span> &#123; store &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">            <span class="keyword">this</span>.unsub = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.setState(store.getState())</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        componentWillUnmount()&#123;</span><br><span class="line">            <span class="keyword">this</span>.unsub()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">let</span> state = <span class="keyword">this</span>.state</span><br><span class="line">            <span class="keyword">let</span> dispatchMethods = &#123;&#125;</span><br><span class="line">            <span class="comment">// 所以mapStateToProps只是生成一个映射: (state) =&gt; (&#123;...&#125;)返回对象</span></span><br><span class="line">            state = mapStateToProps(state)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// mapDispatchToProps可以是(dispatch) =&gt; (&#123; ...fn &#125;)</span></span><br><span class="line">            <span class="comment">// 也可以是actionCreators</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">typeof</span> mapDispatchToProps === <span class="string">'function'</span>) &#123;</span><br><span class="line">                dispatchMethods = mapDispatchToProps(store.dispatch)</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> mapDispatchToProps === <span class="string">'object'</span>) &#123;</span><br><span class="line">                dispatchMethods = bindActionCreators(mapDispatchToProps, store.dispatch)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 将dispatch，state， props映射到子组件</span></span><br><span class="line">            <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">Component</span> &#123; <span class="attr">...props</span> &#125; &#123; <span class="attr">...state</span> &#125; &#123; <span class="attr">...dispatch</span> &#125;/&gt;</span>)</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line">    return (&lt;Context.Consumer&gt;</span><br><span class="line">                &#123; store =&gt;  (&lt;Connect store=&#123; store &#125;&gt;&lt;/Connect&gt;)&#125;</span><br><span class="line">            &lt;/Context.Consumer&gt;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emmmm，大概就这样了，应该</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/vue-cli3-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1090,653 +2001,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/react-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/13/react-1/" itemprop="url">react（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T10:02:53+08:00">
-                2018-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/13/react-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/13/react-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i react</span><br><span class="line">npm i react-dom</span><br><span class="line">npm i react-router-dom</span><br></pre></td></tr></table></figure>
-<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><ul>
-<li><p><strong>componentWillMount</strong> ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。</p>
-</li>
-<li><p><strong>componentDIdMount</strong>：<strong>第一次</strong>渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state。</p>
-</li>
-<li><p><strong>componentWillReceiveProps</strong>：接受到一个新的props，但是第一次render不会触发。</p>
-</li>
-<li><p><strong>shouldComponentUpdate</strong>：boolean，经过diff算法是否需要更新dom</p>
-</li>
-<li><strong>componentWillUpdate</strong>：将要修改</li>
-<li><strong>componentDidUpdate</strong>：修改后</li>
-<li><strong>componentWillUnmount</strong>：移除组件的事件</li>
-</ul>
-<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><ul>
-<li><p>函数式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Com = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>this is component,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>class方式</p>
-</li>
-</ul>
-<h1 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h1><p>Route由上到下匹配。<br>Route中的<code>exact</code>是严格匹配路由的意思（以下以<code>baidu.com</code>为例）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserRouter, Route, Switch &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">BrowserRouter</span>&gt;</span></span></span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">                &lt;Route path="/" exact component=&#123;Home&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1" component=&#123;Com1&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com2" component=&#123;Com2&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1/Com1_1" component=&#123;Com1_1&#125; /&gt;</span><br><span class="line">                &lt;Route component=&#123; NotFound &#125; /&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">        &lt;BrowserRouter/&gt;)</span><br></pre></td></tr></table></figure></p>
-<p>这样只有输入<code>baidu.com</code>，才能进入<code>Home</code>组件。<br>但是路径为<code>baidu.com/Com1/Com1_1</code>的时候，由于优先匹配到了<code>/Com1</code>,切不严格匹配，所以直接返回<code>Com_1</code>组件。<br>NotFound:404页面，没有path，上面所有的路由都没有匹配到。</p>
-<h2 id="BrowserRouter和HashRouter"><a href="#BrowserRouter和HashRouter" class="headerlink" title="BrowserRouter和HashRouter"></a>BrowserRouter和HashRouter</h2><p>React路由不刷新页面，直接跳转，可以做单页面应用</p>
-<ul>
-<li>BrowserRouter<br>  方式：<code>baidu.com/Com</code></li>
-<li>HashRouter<br>  方式：<code>baidu.com/#/Com</code>,以Hash值的方式插入</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/module/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/09/module/" itemprop="url">module</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T23:53:43+08:00">
-                2018-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/09/module/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/09/module/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。</p>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="作用域区别"><a href="#作用域区别" class="headerlink" title="作用域区别"></a>作用域区别</h2><p>在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。</p>
-<ul>
-<li>全局作用域就是window下的作用域</li>
-<li>函数作用域就是因为构成函数所形成一个独立的嵌套在上一层的作用域。<ul>
-<li>同一作用域，js引擎寻找变量的方式为先寻找本层的变量，如果找到则返回，找不到则向外层作用域寻找。<strong>记得var和function函数声明的变量提升</strong></li>
-</ul>
-</li>
-<li>块级作用域只有少数，如<code>try{...}catch(err){}</code>中try能形成单独作用域，但是<code>if(1){}</code>却不能<br>但是在es6中，let和const声明的变量不能提升，但是能够识别块级作用域，能够使用<code>{}</code>来分离作用域</li>
-</ul>
-<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>在合作开发的时候，最早是使用命名空间的方式读取变量。<br>但是es5严格模式不支持with修改作用域，不安全。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    department1 : &#123;</span><br><span class="line">        department1_1 : &#123;</span><br><span class="line">            user1 : &#123;</span><br><span class="line">                name : <span class="string">'xixi'</span>,</span><br><span class="line">                age : <span class="number">18</span>,</span><br><span class="line">                sex : <span class="string">'midmale'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            user2 : &#123;</span><br><span class="line">                name : <span class="string">'haha'</span>,</span><br><span class="line">                age : <span class="number">20</span>,</span><br><span class="line">                sex : <span class="string">'doublemale'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">    department2 : &#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//反例</span></span><br><span class="line">    <span class="comment">//利用with读取变量</span></span><br><span class="line">    <span class="keyword">with</span>(<span class="built_in">window</span>.obj.department1.department1_1.user1)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure></p>
-<h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><p>但是可以用立即执行和命名空间将某些接口暴露到全局。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        num++;</span><br><span class="line">        say();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'the num is '</span> + num)</span><br><span class="line">    &#125;</span><br><span class="line">    context.add = add;</span><br><span class="line">&#125;(<span class="built_in">window</span>.obj || (<span class="built_in">window</span>.obj = &#123;&#125;)))</span><br><span class="line"><span class="comment">//将add暴露到window.obj上</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="即时对象初始化"><a href="#即时对象初始化" class="headerlink" title="即时对象初始化"></a>即时对象初始化</h2><p>其实和立即执行函数差不多,但是这种方法在对象中需要有个<code>init(){return this}</code>函数来讲this暴露到外部。没什么用哈哈~<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(&#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    say()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.num)</span><br><span class="line">    &#125;,</span><br><span class="line">    add()&#123;</span><br><span class="line">        <span class="keyword">this</span>.num++;</span><br><span class="line">        <span class="keyword">this</span>.say();</span><br><span class="line">    &#125;,</span><br><span class="line">    init()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).init();</span><br></pre></td></tr></table></figure></p>
-<h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><h2 id="ES6方式"><a href="#ES6方式" class="headerlink" title="ES6方式"></a>ES6方式</h2><h3 id="单个导出"><a href="#单个导出" class="headerlink" title="单个导出"></a>单个导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//myModule.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> value = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;fun, value&#125; <span class="keyword">from</span> <span class="string">'myModule'</span></span><br></pre></td></tr></table></figure>
-<p>这相当于运行了<code>var {fun, value} = {fun : function(){}, value : 1}</code>,进行了对象的解构。<br>那么由此可得<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是个错误的例子</span></span><br><span class="line"><span class="keyword">import</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这是正确的例子</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line">myModule.value == <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
-<h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; ... &#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br></pre></td></tr></table></figure>
-<p>其实export更多用于<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    key : value</span><br><span class="line">    <span class="comment">//key as value</span></span><br><span class="line">    <span class="comment">//key</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="comment">//import &#123;default as module1&#125; from 'module1'</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="总结一下ES6"><a href="#总结一下ES6" class="headerlink" title="总结一下ES6"></a>总结一下ES6</h3><p>导入<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名方式</span></span><br><span class="line"><span class="keyword">import</span> &#123;name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;name1 <span class="keyword">as</span> Name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//default</span></span><br><span class="line"><span class="keyword">import</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> lib&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//导出为一个对象</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>导出<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名，需要定义变量名</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//...const, var, let function, function*, class...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//default导出</span></span><br><span class="line"><span class="comment">//不需要定义变量名了</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> x =&gt; x;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象式</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    <span class="comment">//对象解构</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="COMMONJS规范"><a href="#COMMONJS规范" class="headerlink" title="COMMONJS规范"></a>COMMONJS规范</h2><p>CommonJS是一种服务器加载的规范<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">module</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    <span class="keyword">this</span>.add = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.num++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports.module = <span class="built_in">module</span>;</span><br><span class="line"><span class="comment">//exports.module = module;</span></span><br></pre></td></tr></table></figure></p>
-<p>这种NodeJs方式的方式好像和立即执行函数的方式一样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">exports</span>)</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">m</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//something</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">module</span>.exports.m = m;</span><br><span class="line">    exports.m = m;    </span><br><span class="line">&#125;(<span class="built_in">module</span>.exports))</span><br></pre></td></tr></table></figure></p>
-<p>即相当于在IIFE的最上面执行了<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exports = <span class="built_in">module</span>.exports;</span><br><span class="line"><span class="comment">/*  module.exports是全局的变量</span></span><br><span class="line"><span class="comment">*所以导出有三种方式</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="built_in">module</span>.exports.m = m;</span><br><span class="line">exports.m = m;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    m : m,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// tip: 但是记得不能使用export = &#123;&#125; 改引用值的方式改变export的指向</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="RequireJS（AMD规范）"><a href="#RequireJS（AMD规范）" class="headerlink" title="RequireJS（AMD规范）"></a>RequireJS（AMD规范）</h2><p>requireJS是基于AMD规范的，在js文件的最上面统一加载<br>require和define中前面的数组中的<code>[&quot;module1&quot;,&quot;module2&quot;]</code>,和<code>function(arg1, arg2)</code>属于对应关系。<br>优点：</p>
-<ul>
-<li>防止js加载阻塞</li>
-<li>防止在html中加载过多的js文件不好管理<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"require.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><code>index.js</code>为主要加载的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">"a"</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    a(<span class="string">"this is index"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.js</span></span><br><span class="line">define([<span class="string">"b"</span>],<span class="function"><span class="keyword">function</span>(<span class="params">b</span>)</span>&#123;</span><br><span class="line">    b(<span class="string">"this is b"</span>)</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<h2 id="SeaJS规范（CMD）"><a href="#SeaJS规范（CMD）" class="headerlink" title="SeaJS规范（CMD）"></a>SeaJS规范（CMD）</h2><p>seaJS和requireJS的区别在于</p>
-<ul>
-<li>seaJS是就近按需加载，requireJS是提前加载</li>
-</ul>
-<h1 id="导出模块兼容"><a href="#导出模块兼容" class="headerlink" title="导出模块兼容"></a>导出模块兼容</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context,name factory</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(define &amp;&amp; <span class="keyword">typeof</span> define === <span class="string">" function"</span>)&#123;</span><br><span class="line">        define(factory);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">module</span>.export)&#123;</span><br><span class="line">        <span class="built_in">module</span>.exports = factory;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        context[name] = factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>,<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/05/hexo/" itemprop="url">hexo</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:39:01+08:00">
-                2018-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/05/hexo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/05/hexo/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>用hexo当然是因为穷（没钱买服务器）和懒了</p>
-<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：</p>
-<ul>
-<li>node（带npm）</li>
-<li>git</li>
-<li>hexo<br>安装好git和node后执行以下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">hexo init &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">cd &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>我遇到的问题：npm install出错<br>解决方案：别用gitBash管理员权限打开cmd，进入到相应文件目录，再npm install（可能是权限不足）</p>
-<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
-<p>生成静态文件并发布到服务器，可以看一下脚手架的大致内容</p>
-<p>然后需要注册并绑定github用户，并新建项目<code>&lt;yourname&gt;.github.io</code><br>拷贝ssh地址<br><img src="/images/hexo/hexo1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
-<p>之后在根目录<code>_config.yml</code>文件的最后面的deploy改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;yourpath&gt;</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<p>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
-<p>可以直接将你本地的数据仓库推到服务器，前提是你绑定了ssh-keygen</p>
-<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><p>我用的nexT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
-<h2 id="主要修改"><a href="#主要修改" class="headerlink" title="主要修改"></a>主要修改</h2><p>先进入<strong>根目录</strong>的<code>_config.yml</code>设置其他的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: Blog</span><br><span class="line">subtitle: </span><br><span class="line">description: 学习前端</span><br><span class="line">keywords: 前端</span><br><span class="line">author: &lt;yourname&gt;</span><br><span class="line">#会在信息框中显示</span><br><span class="line">language: zh-Hans</span><br><span class="line">#中文100级，在设置菜单的时候可以用上</span><br><span class="line"></span><br><span class="line">theme: next</span><br><span class="line">#修改主题</span><br></pre></td></tr></table></figure></p>
-<p><code>/themes/nextnext/_config.yml</code>中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#修改主题Muse，Mist，Pisces</span><br><span class="line">scheme: Pisces</span><br><span class="line"></span><br><span class="line">#menu菜单路由</span><br><span class="line">menu:</span><br><span class="line">  home: /</span><br><span class="line">  about: /about</span><br><span class="line">  tags: /tags</span><br><span class="line">  categories: /categories</span><br><span class="line">  archives: /archives</span><br><span class="line">  commonweal: /404.html</span><br><span class="line">  something: /something</span><br><span class="line">  随便加的: /随便加</span><br><span class="line"></span><br><span class="line">#就是你的信息在哪</span><br><span class="line">siderbar:</span><br><span class="line">    position: right</span><br><span class="line"></span><br><span class="line">#背景的canvas</span><br><span class="line">canvas_nest: true</span><br></pre></td></tr></table></figure></p>
-<p>如果有修改菜单的话<br>进入<code>themes/next/languages/&lt;yourlanguages&gt;.yml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br><span class="line">  对应的key: 名字</span><br></pre></td></tr></table></figure></p>
-<p>改好了需要在cmd中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以tags举例</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure></p>
-<p>会生成<code>/source/tags/index.md</code><br>打开并输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2018-05-05 12:17:52</span><br><span class="line">type: &apos;tags&apos;</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
-<p>这个很重要</p>
-<h2 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h2><p>统计人数<br>在<code>/themes/next/layout/_partials/footer.swig</code>你想的地方加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"powered-by"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-user-md"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_uv"</span>&gt;</span></span><br><span class="line">  本站访客数:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>这个背景蛇皮线条<br><code>/themes/next/layout/_layout.swig</code>中<code>&lt;/body&gt;</code>的前面加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.canvas_nest %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure></p>
-<p>评论<br>没备案没做<br><img src="/images/laugh.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/markDownSimple/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="YYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/blog-avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/05/markDownSimple/" itemprop="url">MarkDown——Simple</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:30:43+08:00">
-                2018-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/05/markDownSimple/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/05/markDownSimple/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，这是一个用hexo和git搭建的一个blog，咳，我只是一个咸鱼，所以这个都是静态的，如果有错请大神赐教啊。(｀・ω・´)<br>先说一下今天稍微看了一下的Markdown吧，防止以后忘记。<br>话说这玩意儿写起来真恶</p>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>好吧其实是个人用的感觉应该比较有用的几个</p>
-<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># &lt;title1&gt;</span></span><br><span class="line"><span class="section">## &lt;title2&gt;</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-<p>对应生成html的<code>&lt;h1 id=&quot;title&quot;&gt;</code>到<code>&lt;h6&gt;</code>,所以最多有六个#。</p>
-<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`所用的语言</span></span><br><span class="line"><span class="string">    function func(...args)&#123;&#125;</span></span><br><span class="line"><span class="string">        if(1)&#123;</span></span><br><span class="line"><span class="string">            something</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
-<p>用上面的语句可以生成对应以下的代码块，写语言可以让部分语句高亮<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">...args</span>)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. one</span><br><span class="line">    4. one-one</span><br><span class="line">    3. one-two</span><br><span class="line">2. two</span><br><span class="line">    + two-one</span><br><span class="line">    * two-two</span><br><span class="line">3. three</span><br></pre></td></tr></table></figure>
-<p>上面的语句效果，记得空格哦，唯一的特点就是只能选内容不能选到列表前面的编号。<br>不同层就在前面加个<code>tab</code><br>有序列表：某一层的第一个值如<code>4. one-one</code>的4设置的是初始值，后面累加。<br>无序列表的话前面* + -都是一样的</p>
-<ol>
-<li>one<ol start="4">
-<li>one-one</li>
-<li>one-two</li>
-</ol>
-</li>
-<li>two<ul>
-<li>two-one</li>
-</ul>
-<ul>
-<li>two-two</li>
-</ul>
-</li>
-<li>three</li>
-</ol>
-<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">****</span><br><span class="line">---</span><br><span class="line">* * *</span><br></pre></td></tr></table></figure>
-<p>分隔线的话只要连着多个*或者-就可以了（3个以上）</p>
-<hr>
-<hr>
-<hr>
-<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![this is dog](/images/blog-avatar.jpg &quot;description&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/images/blog-avatar.jpg" alt="this is dog" title="description"><br>详细：</p>
-<ul>
-<li><code>![图片不存在的时候显示文字](url)</code></li>
-<li>在hexo搭建blog的时候建议将图片都放在<code>&#39;source/images/&#39;</code>中然后统一通过<code>&#39;/images/xx.png&#39;</code>引入，不然路径可能会有问题。</li>
-</ul>
-<h3 id="链接和锚点"><a href="#链接和锚点" class="headerlink" title="链接和锚点"></a>链接和锚点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[link to baidu](https://www.baidu.com)</span><br><span class="line">[回到开始](#基础)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.baidu.com" target="_blank" rel="noopener">link to baidu</a><br><a href="#基础">回到开始</a><br>其实就是<code>&lt;a href=&quot;xx&quot;&gt;&lt;/a&gt;</code>,话说用中文做id真的没问题吗</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>其他的都去看文档啊<a href="http://www.markdown.cn" target="_blank" rel="noopener">MarkDown</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1784,7 +2055,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1797,7 +2068,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1840,7 +2111,7 @@
   本站访客数:<span id="busuanzi_value_site_uv"></span>
 </span>
 </div>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

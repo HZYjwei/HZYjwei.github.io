@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="学习前端">
+<meta name="keywords" content="前端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="学习前端">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="学习前端">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+
+
+
+
+
+  <title>Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right 
+  page-home">
+    <div class="headband"></div>
+    <a href="https://github.com/HZYjwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            something
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/react-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/13/react-1/" itemprop="url">react（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T10:02:53+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/13/react-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/13/react-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i react</span><br><span class="line">npm i react-dom</span><br><span class="line">npm i react-router-dom</span><br></pre></td></tr></table></figure>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><ul>
+<li><p><strong>componentWillMount</strong> ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。</p>
+</li>
+<li><p><strong>componentDIdMount</strong>：<strong>第一次</strong>渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state。</p>
+</li>
+<li><p><strong>componentWillReceiveProps</strong>：接受到一个新的props，但是第一次render不会触发。</p>
+</li>
+<li><p><strong>shouldComponentUpdate</strong>：boolean，经过diff算法是否需要更新dom</p>
+</li>
+<li><strong>componentWillUpdate</strong>：将要修改</li>
+<li><strong>componentDidUpdate</strong>：修改后</li>
+<li><strong>componentWillUnmount</strong>：移除组件的事件</li>
+</ul>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><ul>
+<li><p>函数式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Com = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>this is component,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>class方式</p>
+</li>
+</ul>
+<h1 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h1><p>Route由上到下匹配。<br>Route中的<code>exact</code>是严格匹配路由的意思（以下以<code>baidu.com</code>为例）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserRouter, Route, Switch &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">BrowserRouter</span>&gt;</span></span></span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">                &lt;Route path="/" exact component=&#123;Home&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1" component=&#123;Com1&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com2" component=&#123;Com2&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1/Com1_1" component=&#123;Com1_1&#125; /&gt;</span><br><span class="line">                &lt;Route component=&#123; NotFound &#125; /&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">        &lt;BrowserRouter/&gt;)</span><br></pre></td></tr></table></figure></p>
+<p>这样只有输入<code>baidu.com</code>，才能进入<code>Home</code>组件。<br>但是路径为<code>baidu.com/Com1/Com1_1</code>的时候，由于优先匹配到了<code>/Com1</code>,切不严格匹配，所以直接返回<code>Com_1</code>组件。<br>NotFound:404页面，没有path，上面所有的路由都没有匹配到。</p>
+<h2 id="BrowserRouter和HashRouter"><a href="#BrowserRouter和HashRouter" class="headerlink" title="BrowserRouter和HashRouter"></a>BrowserRouter和HashRouter</h2><p>React路由不刷新页面，直接跳转，可以做单页面应用</p>
+<ul>
+<li>BrowserRouter<br>  方式：<code>baidu.com/Com</code></li>
+<li>HashRouter<br>  方式：<code>baidu.com/#/Com</code>,以Hash值的方式插入</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/module/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/09/module/" itemprop="url">module</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T23:53:43+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/module/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/09/module/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>js模块化主要是将各个模块相互分离，防止变量的重用，进行作用域的隔离，降低模块之间的耦合，有利于模块之间的复用。</p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="作用域区别"><a href="#作用域区别" class="headerlink" title="作用域区别"></a>作用域区别</h2><p>在es3和es5中，js的作用域分为全局作用域，函数作用域还有块级作用域。</p>
+<ul>
+<li>全局作用域就是window下的作用域</li>
+<li>函数作用域就是因为构成函数所形成一个独立的嵌套在上一层的作用域。<ul>
+<li>同一作用域，js引擎寻找变量的方式为先寻找本层的变量，如果找到则返回，找不到则向外层作用域寻找。<strong>记得var和function函数声明的变量提升</strong></li>
+</ul>
+</li>
+<li>块级作用域只有少数，如<code>try{...}catch(err){}</code>中try能形成单独作用域，但是<code>if(1){}</code>却不能<br>但是在es6中，let和const声明的变量不能提升，但是能够识别块级作用域，能够使用<code>{}</code>来分离作用域</li>
+</ul>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>在合作开发的时候，最早是使用命名空间的方式读取变量。<br>但是es5严格模式不支持with修改作用域，不安全。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    department1 : &#123;</span><br><span class="line">        department1_1 : &#123;</span><br><span class="line">            user1 : &#123;</span><br><span class="line">                name : <span class="string">'xixi'</span>,</span><br><span class="line">                age : <span class="number">18</span>,</span><br><span class="line">                sex : <span class="string">'midmale'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            user2 : &#123;</span><br><span class="line">                name : <span class="string">'haha'</span>,</span><br><span class="line">                age : <span class="number">20</span>,</span><br><span class="line">                sex : <span class="string">'doublemale'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">    department2 : &#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//反例</span></span><br><span class="line">    <span class="comment">//利用with读取变量</span></span><br><span class="line">    <span class="keyword">with</span>(<span class="built_in">window</span>.obj.department1.department1_1.user1)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure></p>
+<h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><p>但是可以用立即执行和命名空间将某些接口暴露到全局。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        num++;</span><br><span class="line">        say();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'the num is '</span> + num)</span><br><span class="line">    &#125;</span><br><span class="line">    context.add = add;</span><br><span class="line">&#125;(<span class="built_in">window</span>.obj || (<span class="built_in">window</span>.obj = &#123;&#125;)))</span><br><span class="line"><span class="comment">//将add暴露到window.obj上</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="即时对象初始化"><a href="#即时对象初始化" class="headerlink" title="即时对象初始化"></a>即时对象初始化</h2><p>其实和立即执行函数差不多,但是这种方法在对象中需要有个<code>init(){return this}</code>函数来讲this暴露到外部。没什么用哈哈~<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(&#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    say()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.num)</span><br><span class="line">    &#125;,</span><br><span class="line">    add()&#123;</span><br><span class="line">        <span class="keyword">this</span>.num++;</span><br><span class="line">        <span class="keyword">this</span>.say();</span><br><span class="line">    &#125;,</span><br><span class="line">    init()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).init();</span><br></pre></td></tr></table></figure></p>
+<h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><h2 id="ES6方式"><a href="#ES6方式" class="headerlink" title="ES6方式"></a>ES6方式</h2><h3 id="单个导出"><a href="#单个导出" class="headerlink" title="单个导出"></a>单个导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//myModule.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> value = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;fun, value&#125; <span class="keyword">from</span> <span class="string">'myModule'</span></span><br></pre></td></tr></table></figure>
+<p>这相当于运行了<code>var {fun, value} = {fun : function(){}, value : 1}</code>,进行了对象的解构。<br>那么由此可得<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是个错误的例子</span></span><br><span class="line"><span class="keyword">import</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这是正确的例子</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> myModule <span class="keyword">from</span> <span class="string">'myModule'</span>;</span><br><span class="line">myModule.value == <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; ... &#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br></pre></td></tr></table></figure>
+<p>其实export更多用于<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module1.js</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    key : value</span><br><span class="line">    <span class="comment">//key as value</span></span><br><span class="line">    <span class="comment">//key</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> module1 <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="comment">//import &#123;default as module1&#125; from 'module1'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="总结一下ES6"><a href="#总结一下ES6" class="headerlink" title="总结一下ES6"></a>总结一下ES6</h3><p>导入<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名方式</span></span><br><span class="line"><span class="keyword">import</span> &#123;name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;name1 <span class="keyword">as</span> Name1, name2&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//default</span></span><br><span class="line"><span class="keyword">import</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> lib&#125; <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br><span class="line"><span class="comment">//导出为一个对象</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> lib <span class="keyword">from</span> <span class="string">'lib'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>导出<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//命名，需要定义变量名</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//...const, var, let function, function*, class...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//default导出</span></span><br><span class="line"><span class="comment">//不需要定义变量名了</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> x =&gt; x;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对象式</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    <span class="comment">//对象解构</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="COMMONJS规范"><a href="#COMMONJS规范" class="headerlink" title="COMMONJS规范"></a>COMMONJS规范</h2><p>CommonJS是一种服务器加载的规范<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">module</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    <span class="keyword">this</span>.add = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.num++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports.module = <span class="built_in">module</span>;</span><br><span class="line"><span class="comment">//exports.module = module;</span></span><br></pre></td></tr></table></figure></p>
+<p>这种NodeJs方式的方式好像和立即执行函数的方式一样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">exports</span>)</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">m</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//something</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">module</span>.exports.m = m;</span><br><span class="line">    exports.m = m;    </span><br><span class="line">&#125;(<span class="built_in">module</span>.exports))</span><br></pre></td></tr></table></figure></p>
+<p>即相当于在IIFE的最上面执行了<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exports = <span class="built_in">module</span>.exports;</span><br><span class="line"><span class="comment">/*  module.exports是全局的变量</span></span><br><span class="line"><span class="comment">*所以导出有三种方式</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="built_in">module</span>.exports.m = m;</span><br><span class="line">exports.m = m;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    m : m,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// tip: 但是记得不能使用export = &#123;&#125; 改引用值的方式改变export的指向</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="RequireJS（AMD规范）"><a href="#RequireJS（AMD规范）" class="headerlink" title="RequireJS（AMD规范）"></a>RequireJS（AMD规范）</h2><p>requireJS是基于AMD规范的，在js文件的最上面统一加载<br>require和define中前面的数组中的<code>[&quot;module1&quot;,&quot;module2&quot;]</code>,和<code>function(arg1, arg2)</code>属于对应关系。<br>优点：</p>
+<ul>
+<li>防止js加载阻塞</li>
+<li>防止在html中加载过多的js文件不好管理<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"require.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>index.js</code>为主要加载的文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">"a"</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    a(<span class="string">"this is index"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.js</span></span><br><span class="line">define([<span class="string">"b"</span>],<span class="function"><span class="keyword">function</span>(<span class="params">b</span>)</span>&#123;</span><br><span class="line">    b(<span class="string">"this is b"</span>)</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="SeaJS规范（CMD）"><a href="#SeaJS规范（CMD）" class="headerlink" title="SeaJS规范（CMD）"></a>SeaJS规范（CMD）</h2><p>seaJS和requireJS的区别在于</p>
+<ul>
+<li>seaJS是就近按需加载，requireJS是提前加载</li>
+</ul>
+<h1 id="导出模块兼容"><a href="#导出模块兼容" class="headerlink" title="导出模块兼容"></a>导出模块兼容</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">context,name factory</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(define &amp;&amp; <span class="keyword">typeof</span> define === <span class="string">" function"</span>)&#123;</span><br><span class="line">        define(factory);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">module</span>.export)&#123;</span><br><span class="line">        <span class="built_in">module</span>.exports = factory;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        context[name] = factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>,<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//something</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/05/hexo/" itemprop="url">hexo</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:39:01+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/05/hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/05/hexo/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用hexo当然是因为穷（没钱买服务器）和懒了</p>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：</p>
+<ul>
+<li>node（带npm）</li>
+<li>git</li>
+<li>hexo<br>安装好git和node后执行以下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">hexo init &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">cd &lt;文件名&gt;</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我遇到的问题：npm install出错<br>解决方案：别用gitBash管理员权限打开cmd，进入到相应文件目录，再npm install（可能是权限不足）</p>
+<p>然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>生成静态文件并发布到服务器，可以看一下脚手架的大致内容</p>
+<p>然后需要注册并绑定github用户，并新建项目<code>&lt;yourname&gt;.github.io</code><br>拷贝ssh地址<br><img src="/images/hexo/hexo1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
+<p>之后在根目录<code>_config.yml</code>文件的最后面的deploy改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;yourpath&gt;</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
+<p>可以直接将你本地的数据仓库推到服务器，前提是你绑定了ssh-keygen</p>
+<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><p>我用的nexT<br>在<strong>根目录</strong>下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+<h2 id="主要修改"><a href="#主要修改" class="headerlink" title="主要修改"></a>主要修改</h2><p>先进入<strong>根目录</strong>的<code>_config.yml</code>设置其他的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">title: Blog</span><br><span class="line">subtitle: </span><br><span class="line">description: 学习前端</span><br><span class="line">keywords: 前端</span><br><span class="line">author: &lt;yourname&gt;</span><br><span class="line">#会在信息框中显示</span><br><span class="line">language: zh-Hans</span><br><span class="line">#中文100级，在设置菜单的时候可以用上</span><br><span class="line"></span><br><span class="line">theme: next</span><br><span class="line">#修改主题</span><br></pre></td></tr></table></figure></p>
+<p><code>/themes/nextnext/_config.yml</code>中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#修改主题Muse，Mist，Pisces</span><br><span class="line">scheme: Pisces</span><br><span class="line"></span><br><span class="line">#menu菜单路由</span><br><span class="line">menu:</span><br><span class="line">  home: /</span><br><span class="line">  about: /about</span><br><span class="line">  tags: /tags</span><br><span class="line">  categories: /categories</span><br><span class="line">  archives: /archives</span><br><span class="line">  commonweal: /404.html</span><br><span class="line">  something: /something</span><br><span class="line">  随便加的: /随便加</span><br><span class="line"></span><br><span class="line">#就是你的信息在哪</span><br><span class="line">siderbar:</span><br><span class="line">    position: right</span><br><span class="line"></span><br><span class="line">#背景的canvas</span><br><span class="line">canvas_nest: true</span><br></pre></td></tr></table></figure></p>
+<p>如果有修改菜单的话<br>进入<code>themes/next/languages/&lt;yourlanguages&gt;.yml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br><span class="line">  对应的key: 名字</span><br></pre></td></tr></table></figure></p>
+<p>改好了需要在cmd中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以tags举例</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure></p>
+<p>会生成<code>/source/tags/index.md</code><br>打开并输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2018-05-05 12:17:52</span><br><span class="line">type: &apos;tags&apos;</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<p>这个很重要</p>
+<h2 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h2><p>统计人数<br>在<code>/themes/next/layout/_partials/footer.swig</code>你想的地方加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"powered-by"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-user-md"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_container_site_uv"</span>&gt;</span></span><br><span class="line">  本站访客数:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个背景蛇皮线条<br><code>/themes/next/layout/_layout.swig</code>中<code>&lt;/body&gt;</code>的前面加上<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.canvas_nest %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>评论<br>没备案没做<br><img src="/images/laugh.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/markDownSimple/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/05/markDownSimple/" itemprop="url">MarkDown——Simple</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T15:30:43+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/05/markDownSimple/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/05/markDownSimple/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先，这是一个用hexo和git搭建的一个blog，咳，我只是一个咸鱼，所以这个都是静态的，如果有错请大神赐教啊。(｀・ω・´)<br>先说一下今天稍微看了一下的Markdown吧，防止以后忘记。<br>话说这玩意儿写起来真恶</p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>好吧其实是个人用的感觉应该比较有用的几个</p>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># &lt;title1&gt;</span></span><br><span class="line"><span class="section">## &lt;title2&gt;</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>对应生成html的<code>&lt;h1 id=&quot;title&quot;&gt;</code>到<code>&lt;h6&gt;</code>,所以最多有六个#。</p>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`所用的语言</span></span><br><span class="line"><span class="string">    function func(...args)&#123;&#125;</span></span><br><span class="line"><span class="string">        if(1)&#123;</span></span><br><span class="line"><span class="string">            something</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
+<p>用上面的语句可以生成对应以下的代码块，写语言可以让部分语句高亮<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">...args</span>)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. one</span><br><span class="line">    4. one-one</span><br><span class="line">    3. one-two</span><br><span class="line">2. two</span><br><span class="line">    + two-one</span><br><span class="line">    * two-two</span><br><span class="line">3. three</span><br></pre></td></tr></table></figure>
+<p>上面的语句效果，记得空格哦，唯一的特点就是只能选内容不能选到列表前面的编号。<br>不同层就在前面加个<code>tab</code><br>有序列表：某一层的第一个值如<code>4. one-one</code>的4设置的是初始值，后面累加。<br>无序列表的话前面* + -都是一样的</p>
+<ol>
+<li>one<ol start="4">
+<li>one-one</li>
+<li>one-two</li>
+</ol>
+</li>
+<li>two<ul>
+<li>two-one</li>
+</ul>
+<ul>
+<li>two-two</li>
+</ul>
+</li>
+<li>three</li>
+</ol>
+<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">****</span><br><span class="line">---</span><br><span class="line">* * *</span><br></pre></td></tr></table></figure>
+<p>分隔线的话只要连着多个*或者-就可以了（3个以上）</p>
+<hr>
+<hr>
+<hr>
+<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![this is dog](/images/blog-avatar.jpg &quot;description&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/blog-avatar.jpg" alt="this is dog" title="description"><br>详细：</p>
+<ul>
+<li><code>![图片不存在的时候显示文字](url)</code></li>
+<li>在hexo搭建blog的时候建议将图片都放在<code>&#39;source/images/&#39;</code>中然后统一通过<code>&#39;/images/xx.png&#39;</code>引入，不然路径可能会有问题。</li>
+</ul>
+<h3 id="链接和锚点"><a href="#链接和锚点" class="headerlink" title="链接和锚点"></a>链接和锚点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[link to baidu](https://www.baidu.com)</span><br><span class="line">[回到开始](#基础)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.baidu.com" target="_blank" rel="noopener">link to baidu</a><br><a href="#基础">回到开始</a><br>其实就是<code>&lt;a href=&quot;xx&quot;&gt;&lt;/a&gt;</code>,话说用中文做id真的没问题吗</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>其他的都去看文档啊<a href="http://www.markdown.cn" target="_blank" rel="noopener">MarkDown</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/blog-avatar.jpg"
+                alt="YYY" />
+            
+              <p class="site-author-name" itemprop="name">YYY</p>
+              <p class="site-description motion-element" itemprop="description">学习前端</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YYY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script color="0,0,200" opacity="0.7" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>

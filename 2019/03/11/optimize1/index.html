@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack,优化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="webpack webpack4之后，当mode===’production’的时候或自动压缩js  optimizationchunks有三个属性all|async|initial`， 会自动将有共有文件抽离合并模块1234567891011optimization: &amp;#123;    splitChunks: &amp;#123;      cacheGroups: &amp;#123;        co">
+<meta name="keywords" content="webpack,优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端优化">
+<meta property="og:url" content="http://yoursite.com/2019/03/11/optimize1/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="webpack webpack4之后，当mode===’production’的时候或自动压缩js  optimizationchunks有三个属性all|async|initial`， 会自动将有共有文件抽离合并模块1234567891011optimization: &amp;#123;    splitChunks: &amp;#123;      cacheGroups: &amp;#123;        co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-12T11:54:44.108Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端优化">
+<meta name="twitter:description" content="webpack webpack4之后，当mode===’production’的时候或自动压缩js  optimizationchunks有三个属性all|async|initial`， 会自动将有共有文件抽离合并模块1234567891011optimization: &amp;#123;    splitChunks: &amp;#123;      cacheGroups: &amp;#123;        co">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/11/optimize1/"/>
+
+
+
+
+
+  <title>前端优化 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/HZYjwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            something
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/optimize1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T23:21:29+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/11/optimize1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/11/optimize1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
+<p>webpack4之后，当mode===’production’的时候或自动压缩js</p>
+</blockquote>
+<h2 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h2><p>chunks有三个属性<code></code>all|async|initial`， 会自动将有共有文件抽离合并模块<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        commons: &#123;</span><br><span class="line">          name: <span class="string">'commons'</span>,</span><br><span class="line">          chunks: <span class="string">'all'</span>,</span><br><span class="line">          minChunks: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="dllplugin"><a href="#dllplugin" class="headerlink" title="dllplugin"></a>dllplugin</h2><p>减少构建的时间，就是相对固定的不更新的文件不用每次打包<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.dll.config.js</span></span><br><span class="line"><span class="comment">// getVendorList(), 就是获取package.json中的dependencies的keys</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getVendorList</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> file = fs.readFileSync(resolve(<span class="string">'./package.json'</span>));</span><br><span class="line">        <span class="keyword">let</span> json = <span class="built_in">JSON</span>.parse(file.toString());</span><br><span class="line">        <span class="keyword">let</span> list = <span class="built_in">Object</span>.keys(json.dependencies);</span><br><span class="line">        <span class="keyword">return</span> list.filter(<span class="function"><span class="params">item</span> =&gt;</span> item.indexOf(<span class="string">'@'</span>) === <span class="number">-1</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    mode: <span class="string">'production'</span>,</span><br><span class="line">    entry: &#123;       </span><br><span class="line">        vendor: getVendorList()</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    output: &#123;</span><br><span class="line">        <span class="comment">// 输出位静态文件</span></span><br><span class="line">        path: resolve(<span class="string">'./static/js/'</span>),</span><br><span class="line">        filename: <span class="string">'dll_[name]_[hash:8].js'</span>,</span><br><span class="line">        <span class="comment">// library和下面的dllPlugin要一样</span></span><br><span class="line">        library: <span class="string">'[name]_[hash:8]'</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">            path: path.join(resolve(<span class="string">'./static/js/'</span>), <span class="string">'[name]-manifest.json'</span>),</span><br><span class="line">            name: <span class="string">'[name]_[hash:8]'</span>,</span><br><span class="line">            context: __dirname</span><br><span class="line">        &#125;),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根目录下有个bundle-config.json，就是文件名，</span></span><br><span class="line">        <span class="keyword">new</span> AssetsWebpackPlugin(&#123;</span><br><span class="line">            filename: <span class="string">'bundle-config.json'</span>,</span><br><span class="line">            path: <span class="string">'./'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>webpack.base.config.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.base.config.js --&gt; plugins 加上</span></span><br><span class="line"><span class="comment">// Tip：context要和上面的一样，</span></span><br><span class="line"><span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest: <span class="built_in">require</span>(<span class="string">'../static/js/vendor-manifest.json'</span>),</span><br><span class="line">    context: __dirname</span><br><span class="line">&#125;),</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用了ejs模板， 将dll文件加上</span></span><br><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">    template: <span class="string">'html-withimg-loader!'</span> + resolve(<span class="string">'./src/index.ejs'</span>),</span><br><span class="line">    filename: <span class="string">'index.html'</span>,</span><br><span class="line">    inject: <span class="literal">true</span>,</span><br><span class="line">    vendorJsName: <span class="string">'/static/js/'</span> + bundleConfig.vendor.js,</span><br><span class="line">    minify: &#123;</span><br><span class="line">        removeComments: <span class="literal">true</span>,</span><br><span class="line">        collapseWhitespace: <span class="literal">true</span>,</span><br><span class="line">        removeAttributeQuotes: <span class="literal">true</span></span><br><span class="line">        <span class="comment">// more options:</span></span><br><span class="line">        <span class="comment">// https://github.com/kangax/html-minifier#options-quick-reference</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="happypack"><a href="#happypack" class="headerlink" title="happypack"></a>happypack</h2><p>说是开启多线程加载loader文件，感觉没什么大变化<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.(js|jsx|tsx)$/</span>,</span><br><span class="line">            loader: <span class="string">'happypack/loader?id=happyBabel'</span>,</span><br><span class="line">            <span class="comment">// use: 'babel-loader?cacheDirectory'</span></span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">        id: <span class="string">'happyBabel'</span>,</span><br><span class="line">        <span class="comment">// 就是module -&gt; rules =&gt; loader</span></span><br><span class="line">        loaders: [&#123;</span><br><span class="line">            loader: <span class="string">'babel-loader?cacheDirectory'</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="comment">// 共享进程池</span></span><br><span class="line">        threadPool: happyThreadPool,</span><br><span class="line">        <span class="comment">// 允许 HappyPack 输出日志</span></span><br><span class="line">        verbose: <span class="literal">true</span></span><br><span class="line">    &#125;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h2 id="import"><a href="#import" class="headerlink" title="import()"></a>import()</h2><p>需要webpack3.0^<br>import(‘/‘)是异步加载，感觉多用于路由，能够将app.js大幅度缩小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "Foo" */</span> <span class="string">'./Foo.vue'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>同样还有 React.lazy()<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// React官方demo</span></span><br><span class="line"><span class="keyword">const</span> OtherComponent = React.lazy(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./OtherComponent'</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyComponent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// Displays &lt;Spinner&gt; until OtherComponent loads</span></span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;Spinner /&gt;&#125;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;OtherComponent /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Suspense&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><p><a href="https://segmentfault.com/a/1190000016212808" target="_blank" rel="noopener">前端优化之开启 Gzip 压缩</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (config.build.productionGzip) &#123;</span><br><span class="line">  <span class="keyword">var</span> CompressionWebpackPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line">  webpackConfig.plugins.push(</span><br><span class="line">    <span class="keyword">new</span> CompressionWebpackPlugin(&#123;</span><br><span class="line">      asset: <span class="string">'[path].gz[query]'</span>,</span><br><span class="line">      algorithm: <span class="string">'gzip'</span>,</span><br><span class="line">      test: <span class="keyword">new</span> <span class="built_in">RegExp</span>(</span><br><span class="line">        <span class="string">'\\.(js|css|ttf)$'</span>   <span class="comment">// js，css的gzip效果较好</span></span><br><span class="line">      ),</span><br><span class="line">      threshold: <span class="number">10240</span>,</span><br><span class="line">      minRatio: <span class="number">0.8</span></span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他注意"><a href="#其他注意" class="headerlink" title="其他注意"></a>其他注意</h2><p>css压缩 <code>MiniCssExtractPlugin</code> 在production的时候额外生成css文件，可以缓存策略，dev环境行将style，热重载<br>url-loader limit参数可以将小图片转化为base64文件</p>
+<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><p>浏览器其实是分为<code>js引擎</code> 和 <code>渲染引擎</code>等的，回顾一下用户输入到浏览器显示的流程<br>1 输入网址<br>2 dns解析，返回最快的ip（本地缓存 =&gt; 系统配置dns =&gt; dns服务器（一级域名）=&gt; 二级域名 =&gt; 返回并缓存）<br>3 TCP三次握手， TLS握手（https）<br>4 http请求， 服务器负载均衡， 返回<br>6 解析html文件， （gzip格式会先解压一下）<br>7 然后开始渲染，html构建DOM树，遇到link标签会先异步加载并解析CSS构建CSSTree，遇到script标签会判断是否有async或者defer，没有则<strong>阻塞HTML的解析，而script则会等待CSS加载解析完再加载</strong>，遇见文件则会异步加载文件，<br>8 DOMTree构建完毕后触发DOMContentLoaded，可以触发事件了，当DOMTree和CSSTree构建完毕后合并成为RenderTree，然后GUI渲染</p>
+<p>在这有一些可以操作的地方</p>
+<ul>
+<li>多个dns的时候，dns预解析<code>&lt;link ref=&quot;dns-prefetch&quot; href=&quot;...&quot; /&gt;</code></li>
+<li>预加载 <code>&lt;link rel=&quot;preload&quot; href=&quot;&quot; /&gt;</code></li>
+<li>使用gzip压缩文件</li>
+<li>小图片使用base64，雪碧图，多域名（一个域名下有请求限制），cdn</li>
+<li>图片文件优先使用webp，再向下兼容png</li>
+<li>图片懒加载 scroll（passive）事件 dom.clientTop + 防抖</li>
+<li>是http2.0</li>
+<li>缓存策略 <ul>
+<li>强缓存 ：expires &amp;&amp; cache-control: max-age=1000</li>
+<li>协商缓存： cache-control:no-cache last-modified &amp;&amp; if-modified-since, etag &amp; if-none-match</li>
+<li>cookie：身份签名</li>
+<li>localStorage: 存储较为稳定的数据，如base64的icon</li>
+<li>sessionStorage： 简单的数据</li>
+<li>IndexDB: 前端数据库</li>
+<li>pwa: service worker（workbox）将网站缓存在浏览器，还可以生成桌面文件</li>
+<li>ssr: server side render，浪费服务端性能</li>
+</ul>
+</li>
+</ul>
+<h1 id="js"><a href="#js" class="headerlink" title="js"></a>js</h1><p>js引擎和渲染引擎是分开的，他们之间的教诲是需要耗时的<br>减少dom的操作以减少DOM的重绘重排，重绘的消耗小于重排</p>
+<ul>
+<li>重排：尺寸发生变化或者display:none，会导致后面的元素位置需要重新计算</li>
+<li>重绘：不影响后面的的元素，只是当前元素改变了background之类的<br>但是同时比如计算获取元素的位置也会重排来计算，浏览器会自己优化同类型的计算会形成队列一起执行<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dom.offsetTop = dom.offsetTop + <span class="number">1</span></span><br><span class="line">dom.offsetLeft = dom.offsetLeft + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这会发生4次重排，获取2次，set2次，可以所有的get放在一起，set放在一起<br>如果以dom反复修改不如，现将其从dom中移除（display：none），修改结束再加入渲染，或者加入fragment</p>
+<h1 id="EVENTLOOP"><a href="#EVENTLOOP" class="headerlink" title="EVENTLOOP"></a>EVENTLOOP</h1><p>js的event分为macroTask(主线程，setTimeout，setInterval，setImmediate)， microTask（Promise， process.nextTick）</p>
+<ul>
+<li>先执行主线程的代码，遇到microTask全部推到队列中</li>
+<li>将microTask中的全部执行</li>
+<li>渲染DOM</li>
+<li>web Worker….</li>
+<li>setTimeout到点了，推到主线程中执行<br>Tip：<strong>macroTask出队列是一个一个出的，哪怕setTimeout的时间一样，而microTask是一队一队出队列的</strong><br>所以一般更新dom是放在microTask中的，而且不要阻塞主线程</li>
+</ul>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="cdn-amp-amp-nginx"><a href="#cdn-amp-amp-nginx" class="headerlink" title="cdn &amp;&amp; nginx"></a>cdn &amp;&amp; nginx</h2><p>cdn的域名和后台的服务器域名不一样哦，可以减少cookie的传输<br>cdn和nginx对静态资源的传输更加友好<br>cdn服务器没有资源会向上层服务请求资源，请求到，则会缓存</p>
+<h2 id="http2"><a href="#http2" class="headerlink" title="http2"></a>http2</h2><ul>
+<li>采用二进制传输数据，</li>
+<li>多路复用，一个tcp连接可以发送多个请求</li>
+<li>header压缩，在两端维护索引表，记录出现的header，每次只传差值</li>
+<li>服务端push，推送必要的资源同（prefetch）</li>
+<li>（未实现）QUIC在丢失一个包的情况下可以通过其他包计算出丢失包，两个包就得重传</li>
+</ul>
+<h2 id="gzip开启"><a href="#gzip开启" class="headerlink" title="gzip开启"></a>gzip开启</h2><p>request-header加上<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accept-encoding:gzip</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+            <a href="/tags/优化/" rel="tag"># 优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/easy-mock/" rel="next" title="easy-mock">
+                <i class="fa fa-chevron-left"></i> easy-mock
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/blog-avatar.jpg"
+                alt="YYY" />
+            
+              <p class="site-author-name" itemprop="name">YYY</p>
+              <p class="site-description motion-element" itemprop="description">学习前端</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack"><span class="nav-number">1.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#optimization"><span class="nav-number">1.1.</span> <span class="nav-text">optimization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dllplugin"><span class="nav-number">1.2.</span> <span class="nav-text">dllplugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#happypack"><span class="nav-number">1.3.</span> <span class="nav-text">happypack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import"><span class="nav-number">1.4.</span> <span class="nav-text">import()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gzip"><span class="nav-number">1.4.1.</span> <span class="nav-text">gzip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他注意"><span class="nav-number">1.5.</span> <span class="nav-text">其他注意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM"><span class="nav-number">2.</span> <span class="nav-text">DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#js"><span class="nav-number">3.</span> <span class="nav-text">js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EVENTLOOP"><span class="nav-number">4.</span> <span class="nav-text">EVENTLOOP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">5.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cdn-amp-amp-nginx"><span class="nav-number">5.1.</span> <span class="nav-text">cdn &amp;&amp; nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http2"><span class="nav-number">5.2.</span> <span class="nav-text">http2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gzip开启"><span class="nav-number">5.3.</span> <span class="nav-text">gzip开启</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YYY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/03/11/optimize1/';
+          this.page.identifier = '2019/03/11/optimize1/';
+          this.page.title = '前端优化';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script color="0,0,200" opacity="0.7" type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>
