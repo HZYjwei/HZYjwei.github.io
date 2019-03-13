@@ -284,6 +284,672 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/23/ie-compat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/23/ie-compat/" itemprop="url">ie-compat</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-23T15:20:40+08:00">
+                2018-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/23/ie-compat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/23/ie-compat/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先点开ie8浏览器上面的工具——&gt;Internet选项——&gt;安全——&gt;自定义级别——&gt;(拉到最下面)其他——&gt;通过域访问数据源——&gt;启用<br>很重要啊,同源脚本的都不能加载</p>
+<p>#<br>首先得认识<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--[if lte IE 8]&gt;&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>记得转码字符串吗</p>
+<ul>
+<li>小于 &lt; ( less than ) lt;</li>
+<li>大于 &gt; ( great than ) gt;<br>这里也是一样 lt（小于）e(equal) 等于<br>就是(小于等于IE 8) 的浏览器可以识别<br>用于按需加载不同的文件，兼容必备</li>
+</ul>
+<h1 id="lt-HEAD-gt-中"><a href="#lt-HEAD-gt-中" class="headerlink" title="&lt;HEAD&gt;中"></a><code>&lt;HEAD&gt;</code>中</h1><p>一般在HEAD中加载<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--[if lt IE 8]&gt;&lt;script src="../js/respond.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--[if lt IE 9]&gt;&lt;script src="http://cdn.bootcss.com/html5shiv/3.7/html5shiv.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="respond-js"><a href="#respond-js" class="headerlink" title="respond.js"></a>respond.js</h2><ul>
+<li>1：将<head>中的所有link引入的css文件都取出来放入数组，</head></li>
+<li>2：遍历数组一个个发送ajax请求</li>
+<li>3：ajax的callback分析reponse中的@media 和max-width，min-width分析不同viewprot下的css块</li>
+<li>4：window.onload和window.onrize的时候，获取document.body.offsetWidth + docuemnt.documentElement.offsetWidth然后将相应的css的class名赋到元素上。</li>
+</ul>
+<p>加得越早，屏幕闪烁越快,用户体验越好（当你足够快时，队友的问号就跟不上你）</p>
+<h2 id="html5shiv-js-amp-html5media-js"><a href="#html5shiv-js-amp-html5media-js" class="headerlink" title="html5shiv.js &amp; html5media.js"></a>html5shiv.js &amp; html5media.js</h2><p>含有部分html5标签,讲道理没什么用<br>html5meida兼容了video和audio标签</p>
+<h1 id="尾部（body末尾加）"><a href="#尾部（body末尾加）" class="headerlink" title="尾部（body末尾加）"></a>尾部（body末尾加）</h1><h2 id="rem-js"><a href="#rem-js" class="headerlink" title="rem.js"></a>rem.js</h2><p>rem.js<br>使用rem布局必备，rem这玩意好用得不得了<br>只要在判断userAgent然后按需加载就好了<br><a href="https://github.com/chuckcarpenter/REM-unit-polyfill" target="_blank" rel="noopener">https://github.com/chuckcarpenter/REM-unit-polyfill</a></p>
+<h2 id="jqu-ery"><a href="#jqu-ery" class="headerlink" title="jqu ery"></a><code>jqu ery</code></h2><p>需要2.0以下(hexo真毒，连打会解析不出)</p>
+<h1 id="CSS部分"><a href="#CSS部分" class="headerlink" title="CSS部分"></a>CSS部分</h1><p>首先就是<code>.htc</code>文件，这个其实就是<code>.js</code>包了层皮</p>
+<h2 id="ie-css3-htc"><a href="#ie-css3-htc" class="headerlink" title="ie-css3.htc"></a>ie-css3.htc</h2><p>如果使用了<code>text-shadow</code>,<code>box-shadow</code>,<code>border-radius</code><br>需要加上属性<code>position:relative</code>；<br>在你写的css后面加上<code>behavior:url()</code>；<br><img src="/images/ie/behavior.png" alt=""><br>这个最好不要多用，在一个文件中渲染有上限，如果写的过多，可能会导致后面的元素背景色和元素不在一起，有黑色的条（但是审查不到这个条元素是什么）之类的</p>
+<h2 id="backgroundsize-htc"><a href="#backgroundsize-htc" class="headerlink" title="backgroundsize.htc"></a>backgroundsize.htc</h2><p>兼容了background-size：contain | cover<br>在写css的时候最好不要写复合属性如<br><img src="/images/ie/incurrent.png" alt=""><br>当一个识别不出来好像整个样式都不能识别</p>
+<h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><p>ie7</p>
+<h2 id="width"><a href="#width" class="headerlink" title="width"></a>width</h2><p>在做向下三角的时候不设置width会默认有个width；</p>
+<h2 id="display-inline-block"><a href="#display-inline-block" class="headerlink" title="display:inline-block"></a>display:inline-block</h2><p>在ie7中</p>
+<p>如果原来是display：block（div）中设置display：inline-block 那么这个元素的下一个会换行</p>
+<h2 id="float：right："><a href="#float：right：" class="headerlink" title="float：right："></a>float：right：</h2><p>同样是换行问题<br>建议改为display：absolute；</p>
+<h2 id="position层级问题"><a href="#position层级问题" class="headerlink" title="position层级问题"></a>position层级问题</h2><p><img src="/images/ie/position.png" alt="">;<br>要在ie7中topBar的userMenu覆盖contianer，<br>必须在topBar和container中都加入position：relative，而且z-index大于被覆盖元素</p>
+<h1 id="after-amp-before"><a href="#after-amp-before" class="headerlink" title=":after&amp;:before"></a>:after&amp;:before</h1><p>我一直用::after和::before来清除float的浮动流<br>但是ie8中只支持:after形式的<br>而ie7貌似不支持伪元素写法</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/26/prototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/26/prototype/" itemprop="url">prototype</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T17:10:56+08:00">
+                2018-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/26/prototype/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/26/prototype/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h1><ul>
+<li><p><code>var obj = {}</code><br>对象字面量（推荐）</p>
+</li>
+<li><p><code>var obj = new Object() / var obj = new Person()</code><br>构造方法构建</p>
+</li>
+<li><p><code>var obj = Object.create(Object.prototype)</code><br>es</p>
+<h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p>首先就是所有的对象都有其原型也就是<code>__proto__</code>这个属性，<br>而所有的函数都有一个<code>prototype</code>属性<br>是由其构造函数构造实例的时候隐式的添加一个<code>this.__proto__ = fn.prototype</code><br>可见</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//var this = &#123;&#125;;</span></span><br><span class="line">    <span class="comment">//this.__ proto__ = Animal.prototype;</span></span><br><span class="line">    <span class="comment">//this.constructor = Animal;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//return this;</span></span><br><span class="line">    <span class="comment">//js引擎作了控制,new function()&#123;&#125;只能返回一个对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> gugu = <span class="keyword">new</span> Animal(<span class="string">'gugu'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(gugu)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/es6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/20/es6/" itemprop="url">es6</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T17:09:17+08:00">
+                2018-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/20/es6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/20/es6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="es6兼容性"><a href="#es6兼容性" class="headerlink" title="es6兼容性"></a>es6兼容性</h1><p>es6是2015年提出的js新标准，在之后的浏览器大部分大部分都支持。<br>但是兼容之前的浏览器需要使用使用前端构建工具，如<code>webpack</code>, <code>browserfy</code>, <code>gulp</code>, <code>grunt</code>等，<br>以<code>webpack</code>为例需要下载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-core,abel-loader,babel-preset-env</span><br></pre></td></tr></table></figure></p>
+<p>在webpack中配置使用babel-loader加载器解析为es5</p>
+<h1 id="es6新语法"><a href="#es6新语法" class="headerlink" title="es6新语法"></a>es6新语法</h1><h2 id="定义方式"><a href="#定义方式" class="headerlink" title="定义方式"></a>定义方式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> value2 = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>在es6新增的两个定义方式，都能识别当前的块级作用域。<br>有一下共同特点：</p>
+<ul>
+<li>在定义之前不能使用(声明不提前了)</li>
+<li>重复定义会报错<br>而且const定义的<code>value</code>就是一个常量，不能改变<br>但是const只能保证变量的地址不改变，要值不改变可通过<code>Object.freeze()</code>,或者<code>Object.defineProperty(obj, &quot;prop&quot;, {writeable:false})</code><br>有一个用法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"final"</span> + i);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最后会报Error（i is not defined），用let声明的变量没有污染全局。<br>所以内部机制是这样的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="keyword">let</span> i = <span class="number">0</span>;</span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="built_in">console</span>.log(i);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(i);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="Symbol-String升级版"><a href="#Symbol-String升级版" class="headerlink" title="Symbol(String升级版)"></a>Symbol(String升级版)</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="built_in">Symbol</span>(<span class="string">"it is symbol"</span>)<span class="comment">//这只是个Symbol描述，在调试时有用</span></span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    name : <span class="string">"test"</span>,</span><br><span class="line">    [s] : <span class="string">'hello symbol'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> prop <span class="keyword">in</span> a)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prop);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//只输出"name"</span></span><br></pre></td></tr></table></figure>
+<p>Symbol类型的变量不能遍历到(除了Object.getOwnPropertySymbols(a))<br>但是能通过a[s]来获取<br>而且每一个Symbol都是唯一的，不重复的</p>
+<h3 id="Map-Obejct升级版"><a href="#Map-Obejct升级版" class="headerlink" title="Map(Obejct升级版)"></a>Map(Obejct升级版)</h3><p><img src="/images/es6/Map.png" alt=""><br>不同点:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;；</span><br><span class="line"><span class="keyword">var</span> a =&#123;</span><br><span class="line">    [obj] : <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">//&#123;[object Object] : 1&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>在Map中key值可以是对象等任意值<br>在Object中放入对象会调用<code>.toString()</code>方法<br>其他方法：</p>
+<ul>
+<li>map.get(prop)</li>
+<li>map.set(prop, value)</li>
+<li>map.clear()</li>
+<li>map.delete(prop)</li>
+</ul>
+<h3 id="Set-Array升级版"><a href="#Set-Array升级版" class="headerlink" title="Set(Array升级版)"></a>Set(Array升级版)</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">//[1,2,3]</span></span><br></pre></td></tr></table></figure>
+<p>Set自己会进行去重<br>其他方法</p>
+<ul>
+<li>a.add(value)</li>
+<li>a.delete(value)</li>
+</ul>
+<h3 id="遍历方法"><a href="#遍历方法" class="headerlink" title="遍历方法"></a>遍历方法</h3><p>Map和Set都是迭代器类型<br>有三种方式(map，set，arr)</p>
+<ul>
+<li>map.keys()</li>
+<li>map.valus()</li>
+<li>map.entries()<br><em>但是Object的entries不是在原型链上，而是在其构造函数上通过<code>Object.entries(obj)</code>获取其迭代器</em></li>
+</ul>
+<p>然后获取该迭代器对象<code>iterator.next()</code>取下一个<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//iterator为以上的迭代器</span></span><br><span class="line"><span class="comment">//若直接写map（或者set，array）默认是执行'.entries()',</span></span><br><span class="line"><span class="comment">//但是注意object.entries()不存在，所以不能直接遍历</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> prop <span class="keyword">of</span> iterator)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prop)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="新增方法（Object-amp-Array）"><a href="#新增方法（Object-amp-Array）" class="headerlink" title="新增方法（Object &amp; Array）"></a>新增方法（Object &amp; Array）</h2><h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><h4 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h4><ul>
+<li><p><code>Array.isArray(arr)</code>;<br>返回是否是Array</p>
+</li>
+<li><p><code>Array.from({length:5}, fn)</code>;<br>将后面的类数组转化为数组<br>用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.from(&#123; <span class="attr">length</span>: <span class="number">5</span> &#125;, <span class="function"><span class="keyword">function</span>(<span class="params">ele, index</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> index;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Array.of(...args)</code>;<br>同new Array();<br>但是只有一个参数的时候会生成<code>[n]</code>的数组；</p>
+</li>
+</ul>
+<p>####实例方法</p>
+<ul>
+<li><p><code>arr.fill(num)</code><br>将arr全部填充为num</p>
+</li>
+<li><p><code>arr.includes()</code></p>
+</li>
+<li><p><code>arr.find(fn(ele, index{}))</code></p>
+</li>
+<li><p><code>arr.findIndex(fn)</code><br>找到第一个符合条件的。</p>
+</li>
+<li><p><code>arr.copyWithin(target, start, end)</code><br>从arr的第target位开始，以start为起始位，end为结束位，复制到target位</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].copyWithin(<span class="number">-2</span>, <span class="number">-3</span>, <span class="number">-1</span>);</span><br><span class="line"><span class="comment">// [1, 2, 3, 3, 4]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Object-全部都是在Object上实现"><a href="#Object-全部都是在Object上实现" class="headerlink" title="Object(全部都是在Object上实现)"></a>Object(全部都是在Object上实现)</h3><ul>
+<li><p>Object.assign(target, …origin1)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj1 = <span class="built_in">Object</span>.assign(&#123;&#125;,&#123;<span class="attr">name</span>:<span class="number">2</span>&#125;,&#123;<span class="attr">fn</span>:<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Object.is(obj1, obj2)<br>可用于分辨NaN之间，还有<code>+0</code>和<code>-0</code>的区别</p>
+</li>
+</ul>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><h3 id="…解构"><a href="#…解构" class="headerlink" title="…解构"></a>…解构</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [<span class="string">'i`m arr1'</span>],arr2 = [<span class="string">'i`m arr2'</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</span><br><span class="line"><span class="comment">//arr1.push(...arr2);</span></span><br><span class="line"><span class="comment">//var arr3 = [...arr1, ...arr2]; 同push和concat</span></span><br><span class="line"><span class="keyword">var</span> [x,...y] = arr2;			<span class="comment">//解构</span></span><br></pre></td></tr></table></figure>
+<p><code>...array</code>会将array的外面的括号去掉</p>
+<p>会区别Unicode32位码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[...<span class="string">'x\uD83D\uDE80y'</span>].length <span class="comment">//3</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h3><p><img src="/images/es6/variable.png" alt=""><br>对象的解构赋值采用hash对应的方式，就<code>obj1.value = obj2.value</code>，没有的话会向原型上找。<br>同理数组也可以<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>, b =<span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> [a, b] = [b, a];</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误示例，2不是个数组，不能2个变量解析到一个值</span></span><br><span class="line"><span class="comment">//var [a, [b, c]] = [1, 2]</span></span><br></pre></td></tr></table></figure></p>
+<p>这是比较简单的交换值写法。<br>数组的解构赋值则是按顺序解构。</p>
+<h3 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h3><p>结构赋值的方式可以加默认值<br>如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> [a = <span class="number">1</span>, b] = [<span class="literal">undefined</span>, <span class="number">2</span>];</span><br><span class="line"><span class="comment">//var [a,b,c] = "str";</span></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">var</span> &#123;a, b = <span class="number">1</span>&#125; = &#123;a()&#123;&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>满足<code>value === undefined</code>的时候才会取默认值。<br><strong>在对象中<code>{a(){}}</code>会被解析成<code>{a : function a(){}}</code></strong></p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>函数默认值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1：传参不能传空</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DefaultArgs1</span>(<span class="params">&#123;arg1=<span class="string">'xm'</span>, arg2=<span class="string">'18'</span>&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(arg1,arg2); </span><br><span class="line">&#125;</span><br><span class="line">DefaultArgs1(&#123;<span class="attr">arg1</span>:<span class="string">'xm2'</span>&#125;) <span class="comment">//输出 'xm2' 18;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//2:可传空,</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DefaultArgs2</span>(<span class="params">&#123;arg1=<span class="string">'xm'</span>, arg2=<span class="string">'18'</span>&#125; = &#123;&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(arg1,arg2); </span><br><span class="line">&#125;</span><br><span class="line">DefaultArgs2() <span class="comment">//输出 'xm' 18;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//3:不传参带默认值，传参不带该属性就为undefined</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DefaultArgs3</span>(<span class="params">&#123;arg1, arg2&#125; = &#123;arg1:<span class="string">'xm'</span>, arg2:<span class="string">'18'</span>&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(arg1,arg2); </span><br><span class="line">&#125;</span><br><span class="line">DefaultArgs3(&#123;<span class="attr">arg1</span>: <span class="string">'xm'</span>&#125;) <span class="comment">//输出 'xm' undefined;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> objALl = &#123;</span><br><span class="line">    test()&#123;</span><br><span class="line">        <span class="keyword">var</span> obj = &#123;</span><br><span class="line">            say: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//window</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        obj.say()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+<p>obj.say()中没有this，obj没有this，取的是objAll.test()中的this而不是window<br><strong>在箭头函数中中没有<code>this</code>,回取最近的一个<code>this</code>,</strong><br><strong>在箭头函数中没有实参（arguments）</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function">(<span class="params">...args</span>) =&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(args); <span class="comment">//[1,2,3]</span></span><br><span class="line">&#125;</span><br><span class="line">a(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'handsome'</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">`i'm</span></span><br><span class="line"><span class="string">human, <span class="subst">$&#123;name&#125;</span>`</span>;</span><br><span class="line">parse<span class="string">`i'm</span></span><br><span class="line"><span class="string">human, <span class="subst">$&#123;name&#125;</span>`</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parse</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(str);        <span class="comment">//文本的值会转化为[文本1, 文本2]传入一个实参</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>); <span class="comment">//$&#123;name&#125;变量的值会传入arguments</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code></code>中间会自动转化换行符,<br>同时使用<code>${name}</code>可以获取js的变量<br>用法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseHTML</span>(<span class="params">str</span>)</span>&#123;							</span><br><span class="line">    <span class="keyword">var</span> data = str[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>;i &lt; <span class="built_in">arguments</span>.length; i++)&#123;</span><br><span class="line">        data += <span class="built_in">arguments</span>[i].replace(<span class="regexp">/&amp;/g</span>, <span class="string">"&amp;amps"</span>).replace(<span class="regexp">/&lt;/g</span>, <span class="string">"&amp;lt;"</span>).replace(<span class="regexp">/&gt;/g</span>, <span class="string">"&amp;gt;"</span>);</span><br><span class="line">        data += str[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YYY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/blog-avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/19/promise/" itemprop="url">promise</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-19T13:58:47+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/19/promise/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/19/promise/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><p>首先讲一下Promise的使用方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> data = <span class="built_in">Math</span>.random();</span><br><span class="line">   <span class="keyword">if</span>(data &gt; <span class="number">0.5</span>)&#123;</span><br><span class="line">       resolve(data);</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       reject(data);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"success:"</span> + data);</span><br><span class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"fail:"</span> + data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>在Promise构造函数的参数为一个<code>function(resolve,reject)</code>,第一个参数（<code>resolve</code>）为成功执行的回调,第二个参数（<code>reject</code>）为失败执行的回调。</li>
+<li>在Promise的prototype中定义了一个then方法，其中它有两个参数，均为为<code>function(data)</code>,第一个参数<code>function</code>是resolve()的回调，第二个是reject()的回调。</li>
+<li>如果在Promise中的代码改为异步执行，<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;resole(<span class="number">1</span>)&#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"success:"</span> + data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在Promise中有三个状态<code>Pedding</code> -&gt; <code>Resolved</code>(<code>Rejected</code>)</p>
+<p>#异步机制<br>先来两题简单的</p>
+<ul>
+<li>第一题<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">10</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">300</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"><span class="keyword">while</span>(num--) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'--'</span>);</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">20</span>);</span><br><span class="line">&#125;, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>答案：–(*10), 20 ,300</p>
+<ul>
+<li>第二题<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">10000</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">300</span>);</span><br><span class="line">&#125;, <span class="number">300</span>);</span><br><span class="line"><span class="keyword">while</span>(num--) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'--'</span>);</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">20</span>);</span><br><span class="line">&#125;, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>答案：–(*10000),300,20</p>
+<p>那么再来一题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"macro-task   1"</span>)&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"macro-task   2"</span>)&#125;, <span class="number">0</span>);</span><br><span class="line">    resolve();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"主线程   1"</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"micro-task   1"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"主线程   2"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>答案是：<img src="/images/es6/Promise.png" alt="" title="description"><br>在这里讲一下流程，首先js主线程是单线程的，但是会有任务队列来执行将异步中的函数推到主线程的执行队列中，<br>eg：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;console.log(111)&#125;, 0)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/es6/liucheng.png" alt="" title="执行流程图"><br>但是不同的任务队列中优先级是不同的，且micro-task &gt; macro-task<br>而且<strong>setTimeout有一个最低延时<em>4ms</em>，无论是否设置时间为0ms</strong></p>
+<p>列举一下各个任务队列的函数</p>
+<ul>
+<li>macro-task<br>  <code>script</code>（整体代码），<code>setTimeout</code>， <code>setInterval</code>， <code>setImmediate</code>， I/O， UI rendering</li>
+<li>micro-task<br>  <code>process.nextTick</code>， <code>promise.then</code>， <code>Object.observe</code>， <code>MutationObserver</code></li>
+</ul>
+<p>#其他</p>
+<ul>
+<li><code>Promise.race([...args]).then()</code><br>  只要有一个执行完了就then</li>
+<li><code>Promise.all([...args]).then()</code><br>  所有都执行完了才then</li>
+</ul>
+<p>#源码（类似）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myPromise</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> fn !== <span class="string">"fucntion"</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">"fn is not a function"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> _self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">this</span>.status = <span class="string">"Pedding"</span>;</span><br><span class="line">    thi.data = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.resolveArr = [];</span><br><span class="line">    <span class="keyword">this</span>.rejectArr = [];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">                    _self.status = <span class="string">"Resolved"</span>;</span><br><span class="line">                    _self.data = data;</span><br><span class="line">                    _self.resolveArr.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn())</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reject</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        setTiemout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">                _self.status = <span class="string">"Rejected"</span>;</span><br><span class="line">                _self.data = data;</span><br><span class="line">                _slef.rejectArr.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>)        </span><br><span class="line">    &#125;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">&#125;</span><br><span class="line">myPromise.prototype.then = <span class="function"><span class="keyword">function</span>(<span class="params">onResolved, onRejected</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Resolved"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> res = onResolved(_self.data);</span><br><span class="line">            <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                res.then(resolve, reject);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                resolve(res);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Rejected"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> res = onRejected(_self.data);</span><br><span class="line">            <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                res.then(resolve, reject);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                reject(res);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_self.status === <span class="string">"Pedding"</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">            _self.resolveArr.push((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">var</span> res = onResolved(_self.data);</span><br><span class="line">                <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                    res.then(resolve, reject);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    resolve(res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;(onResolved)))</span><br><span class="line">        &#125;);</span><br><span class="line">        _self.rejectArr.push((<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">var</span> res = onRejected(_self.data);</span><br><span class="line">                <span class="keyword">if</span>(res <span class="keyword">instanceof</span> myPromise)&#123;</span><br><span class="line">                    res.then(resolve, reject);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    resolve(res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;(onRejected)))</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/react-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -969,7 +1635,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

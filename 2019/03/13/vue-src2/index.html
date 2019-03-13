@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="react," />
+  <meta name="keywords" content="源码,vue," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="环境123npm i reactnpm i react-domnpm i react-router-dom 生命周期 componentWillMount ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。  componentDIdMount：第一次渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state">
-<meta name="keywords" content="react">
+<meta name="description" content="依赖收集真的很烦，一批专业认识天天搞专业名词，真的记不住啊 emmmmm，依赖收集呢直白的意思就是 你每次调用obj的get方法的时候，就收集一下有几个地方绑定了属性，有多少没用过的属性，当依赖收集过的属性触发set的时候，触发回调，如果你有的属性没有使用，但是修改了就不用render了 其实就是一个基本的发布订阅模式  通过addSub向Dep添加一个新的订阅操作 notify触发所有订阅的更新">
+<meta name="keywords" content="源码,vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="react（一）">
-<meta property="og:url" content="http://yoursite.com/2018/05/13/react-1/index.html">
+<meta property="og:title" content="vue依赖收集">
+<meta property="og:url" content="http://yoursite.com/2019/03/13/vue-src2/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="环境123npm i reactnpm i react-domnpm i react-router-dom 生命周期 componentWillMount ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。  componentDIdMount：第一次渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state">
+<meta property="og:description" content="依赖收集真的很烦，一批专业认识天天搞专业名词，真的记不住啊 emmmmm，依赖收集呢直白的意思就是 你每次调用obj的get方法的时候，就收集一下有几个地方绑定了属性，有多少没用过的属性，当依赖收集过的属性触发set的时候，触发回调，如果你有的属性没有使用，但是修改了就不用render了 其实就是一个基本的发布订阅模式  通过addSub向Dep添加一个新的订阅操作 notify触发所有订阅的更新">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-13T05:38:00.789Z">
+<meta property="og:updated_time" content="2019-03-13T07:44:19.757Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="react（一）">
-<meta name="twitter:description" content="环境123npm i reactnpm i react-domnpm i react-router-dom 生命周期 componentWillMount ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。  componentDIdMount：第一次渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state">
+<meta name="twitter:title" content="vue依赖收集">
+<meta name="twitter:description" content="依赖收集真的很烦，一批专业认识天天搞专业名词，真的记不住啊 emmmmm，依赖收集呢直白的意思就是 你每次调用obj的get方法的时候，就收集一下有几个地方绑定了属性，有多少没用过的属性，当依赖收集过的属性触发set的时候，触发回调，如果你有的属性没有使用，但是修改了就不用render了 其实就是一个基本的发布订阅模式  通过addSub向Dep添加一个新的订阅操作 notify触发所有订阅的更新">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/13/react-1/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/03/13/vue-src2/"/>
 
 
 
 
 
-  <title>react（一） | Blog</title>
+  <title>vue依赖收集 | Blog</title>
   
 
 
@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/react-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/vue-src2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="YYY">
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">react（一）</h1>
+          <h1 class="post-title" itemprop="name headline">vue依赖收集</h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T10:02:53+08:00">
-                2018-05-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T15:09:38+08:00">
+                2019-03-13
               </time>
             
 
@@ -332,9 +332,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/13/react-1/#comments" itemprop="discussionUrl">
+                <a href="/2019/03/13/vue-src2/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/13/react-1/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/03/13/vue-src2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -362,34 +362,22 @@
       
 
       
-        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i react</span><br><span class="line">npm i react-dom</span><br><span class="line">npm i react-router-dom</span><br></pre></td></tr></table></figure>
-<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><ul>
-<li><p><strong>componentWillMount</strong> ： 当前组件已经生成了this实例，将要被渲染，但是这个时候没有生成dom。</p>
-</li>
-<li><p><strong>componentDIdMount</strong>：<strong>第一次</strong>渲染，当前组件的内容已经被渲染，通过ajax获取数据再this.setState({key:vakue})来更改state。</p>
-</li>
-<li><p><strong>componentWillReceiveProps</strong>：接受到一个新的props，但是第一次render不会触发。</p>
-</li>
-<li><p><strong>shouldComponentUpdate</strong>：boolean，经过diff算法是否需要更新dom</p>
-</li>
-<li><strong>componentWillUpdate</strong>：将要修改</li>
-<li><strong>componentDidUpdate</strong>：修改后</li>
-<li><strong>componentWillUnmount</strong>：移除组件的事件</li>
-</ul>
-<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><ul>
-<li><p>函数式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Com = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>this is component,&#123;props.name&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>class方式</p>
-</li>
-</ul>
-<h1 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h1><p>Route由上到下匹配。<br>Route中的<code>exact</code>是严格匹配路由的意思（以下以<code>baidu.com</code>为例）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserRouter, Route, Switch &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">BrowserRouter</span>&gt;</span></span></span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">                &lt;Route path="/" exact component=&#123;Home&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1" component=&#123;Com1&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com2" component=&#123;Com2&#125; /&gt;</span><br><span class="line">                &lt;Route path="/Com1/Com1_1" component=&#123;Com1_1&#125; /&gt;</span><br><span class="line">                &lt;Route component=&#123; NotFound &#125; /&gt;</span><br><span class="line">            &lt;Switch&gt;</span><br><span class="line">        &lt;BrowserRouter/&gt;)</span><br></pre></td></tr></table></figure></p>
-<p>这样只有输入<code>baidu.com</code>，才能进入<code>Home</code>组件。<br>但是路径为<code>baidu.com/Com1/Com1_1</code>的时候，由于优先匹配到了<code>/Com1</code>,切不严格匹配，所以直接返回<code>Com_1</code>组件。<br>NotFound:404页面，没有path，上面所有的路由都没有匹配到。</p>
-<h2 id="BrowserRouter和HashRouter"><a href="#BrowserRouter和HashRouter" class="headerlink" title="BrowserRouter和HashRouter"></a>BrowserRouter和HashRouter</h2><p>React路由不刷新页面，直接跳转，可以做单页面应用</p>
+        <h1 id="依赖收集"><a href="#依赖收集" class="headerlink" title="依赖收集"></a>依赖收集</h1><p>真的很烦，一批专业认识天天搞专业名词，真的记不住啊</p>
+<p>emmmmm，依赖收集呢直白的意思就是</p>
+<p><code>你每次调用obj的get方法的时候，就收集一下有几个地方绑定了属性，有多少没用过的属性，当依赖收集过的属性触发set的时候，触发回调，如果你有的属性没有使用，但是修改了就不用render了</code></p>
+<p>其实就是一个基本的发布订阅模式</p>
 <ul>
-<li>BrowserRouter<br>  方式：<code>baidu.com/Com</code></li>
-<li>HashRouter<br>  方式：<code>baidu.com/#/Com</code>,以Hash值的方式插入</li>
+<li>通过addSub向Dep添加一个新的订阅操作</li>
+<li>notify触发所有订阅的更新操作<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span> () &#123;</span><br><span class="line">        <span class="comment">/* 用来存放Watcher对象的数组 */</span></span><br><span class="line">        <span class="keyword">this</span>.subs = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 在subs中添加一个Watcher对象 */</span></span><br><span class="line">    addSub (sub) &#123;</span><br><span class="line">        <span class="keyword">this</span>.subs.push(sub);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 通知所有Watcher对象更新视图 */</span></span><br><span class="line">    notify () &#123;</span><br><span class="line">        <span class="keyword">this</span>.subs.forEach(<span class="function">(<span class="params">sub</span>) =&gt;</span> &#123;</span><br><span class="line">            sub.update();</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+<h1 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span> () &#123;</span><br><span class="line">        <span class="comment">/* 在new一个Watcher对象时将该对象赋值给Dep.target，在get中会用到 */</span></span><br><span class="line">        Dep.target = <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 更新视图的方法 */</span></span><br><span class="line">    update () &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"视图更新啦～"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dep.target = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h1><ul>
+<li>每次get的时候添加一下订阅，如果data[key]没有get过，就不会订阅了，也就不会更新</li>
+<li>触发set的时候，去更新一下视图</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span> (<span class="params">obj, key, val</span>) </span>&#123;</span><br><span class="line">    <span class="comment">/* Dep对象存在闭包中 */</span></span><br><span class="line">    <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">        enumerable: <span class="literal">true</span>,</span><br><span class="line">        configurable: <span class="literal">true</span>,</span><br><span class="line">        get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">/* 将Dep.target（即当前的Watcher对象存入dep的subs中） */</span></span><br><span class="line">            dep.addSub(Dep.target);</span><br><span class="line">            <span class="keyword">return</span> val;         </span><br><span class="line">        &#125;,</span><br><span class="line">        set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span> (<span class="params">newVal</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (newVal === val) <span class="keyword">return</span>;</span><br><span class="line">            val = newVal</span><br><span class="line">            <span class="comment">/* 在set的时候触发dep的notify来通知所有的Watcher对象更新视图 */</span></span><br><span class="line">            dep.notify();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vue</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">        <span class="keyword">this</span>._data = options.data;</span><br><span class="line">        observer(<span class="keyword">this</span>._data);</span><br><span class="line">        <span class="comment">/* 新建一个Watcher观察者对象，这时候Dep.target会指向这个Watcher对象 */</span></span><br><span class="line">        <span class="keyword">new</span> Watcher();</span><br><span class="line">        <span class="comment">/* 在这里模拟render的过程，为了触发test属性的get函数 */</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'render~'</span>, <span class="keyword">this</span>._data.test);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么问题来了一次get就要触发一次更新，一个属性多次订阅的话dep.subs就会有很多个啊，难道多次刷新吗</p>
 
       
     </div>
@@ -407,7 +395,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/react/" rel="tag"># react</a>
+            <a href="/tags/源码/" rel="tag"># 源码</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -420,8 +410,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/09/module/" rel="next" title="module">
-                <i class="fa fa-chevron-left"></i> module
+              <a href="/2019/03/13/vue-src1/" rel="next" title="vue对象响应式">
+                <i class="fa fa-chevron-left"></i> vue对象响应式
               </a>
             
           </div>
@@ -430,8 +420,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/19/promise/" rel="prev" title="promise">
-                promise <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/13/vue-src3/" rel="prev" title="nextTick&watcher队列">
+                nextTick&watcher队列 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -569,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期"><span class="nav-number">2.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组件"><span class="nav-number">3.</span> <span class="nav-text">组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#路由"><span class="nav-number">4.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BrowserRouter和HashRouter"><span class="nav-number">4.1.</span> <span class="nav-text">BrowserRouter和HashRouter</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#依赖收集"><span class="nav-number">1.</span> <span class="nav-text">依赖收集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者"><span class="nav-number">2.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#发布订阅"><span class="nav-number">3.</span> <span class="nav-text">发布订阅</span></a></li></ol></div>
             
 
           </div>
@@ -752,9 +742,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/13/react-1/';
-          this.page.identifier = '2018/05/13/react-1/';
-          this.page.title = 'react（一）';
+          this.page.url = 'http://yoursite.com/2019/03/13/vue-src2/';
+          this.page.identifier = '2019/03/13/vue-src2/';
+          this.page.title = 'vue依赖收集';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://.disqus.com/embed.js';
